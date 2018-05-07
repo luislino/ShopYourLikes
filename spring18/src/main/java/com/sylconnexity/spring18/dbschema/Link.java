@@ -9,23 +9,23 @@ import javax.persistence.Id;
 public class Link {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long linkID;
-    private Long publisherID;
-    private Long merchantID;
-    private Long redirects;
-    private Long earnings;
+    private Long linkID;      //Identifier for a given link
 
-    private String customTitle;
-    private String originalURL;
-    private String imageRedirectPermahashLink;
+    private Long publisherID; //Identifier for an individual influencer
+    private Long merchantID;  //The merchant identifier for where the SYL Link landed
+
+    private Long earnings;    //Amount of money the influencer has earned from a SYL Link
+
+    private String customTitle;                 //The title associated with the SYL Link that the user provided
+    private String originalURL;                 //The original URL associated with the SYL Link that the user provided
+    private String imageRedirectPermahashLink;  //The unique hash code associated with a SYL Link
 
     protected Link() {}
 
-    public Link(Long publisherID, Long merchantID, Long redirects, Long earnings, String customTitle, String originalURL,
+    public Link(Long publisherID, Long merchantID, Long earnings, String customTitle, String originalURL,
                 String imageRedirectPermahashLink) {
         this.publisherID = publisherID;
         this.merchantID = merchantID;
-        this.redirects = redirects;
         this.earnings = earnings;
         this.customTitle = customTitle;
         this.originalURL = originalURL;
@@ -54,14 +54,6 @@ public class Link {
 
     public void setMerchantID(Long merchantID) {
         this.merchantID = merchantID;
-    }
-
-    public Long getRedirects() {
-        return redirects;
-    }
-
-    public void setRedirects(Long redirects) {
-        this.redirects = redirects;
     }
 
     public Long getEarnings() {

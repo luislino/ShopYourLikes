@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface LinkRepository extends CrudRepository<Link, Long> {
+public interface PublisherRepository extends CrudRepository<Publisher, Long> {
 
-    List<Link> findByPublisherID(Long publisherID);
 }
