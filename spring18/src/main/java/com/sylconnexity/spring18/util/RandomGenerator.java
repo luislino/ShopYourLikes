@@ -1,10 +1,10 @@
 package com.sylconnexity.spring18.util;
 
 import java.util.Random;
-import java.lang.StringBuilder;
+import java.lang.StringBuffer;
 
 public class RandomGenerator {
-    private final String chars = "0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ";
+    private final String CHARS = "0123456789abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVXYZ";
     private Random rng;
 
     public RandomGenerator() {
@@ -28,22 +28,24 @@ public class RandomGenerator {
     }
 
     public String generateRandomString(int size) {
-        StringBuilder randomString = new StringBuilder();
+        StringBuffer randomString = new StringBuffer(size);
         for (int i = 0; i < size; i++) {
-            int randomInt = rng.nextInt(chars.length());
-            randomString.append(chars.charAt(randomInt));
+            int randomInt = rng.nextInt(CHARS.length());
+            randomString.append(CHARS.charAt(randomInt));
         }
         return randomString.toString();
     }
 
     public String generateRandomURL(int size) {
-        StringBuilder randomURL = new StringBuilder();
-        randomURL.append("https://www.");
+        final String PREFIX = "https://www.";
+        final String POSTFIX = ".com/";
+        StringBuffer randomURL = new StringBuffer(size + PREFIX.length() + POSTFIX.length());
+        randomURL.append(PREFIX);
         for (int i = 0; i < size; i++) {
-            int randomInt = rng.nextInt(chars.length());
-            randomURL.append(chars.charAt(randomInt));
+            int randomInt = rng.nextInt(CHARS.length());
+            randomURL.append(CHARS.charAt(randomInt));
         }
-        randomURL.append(".com/");
+        randomURL.append(POSTFIX);
         return randomURL.toString();
     }
 
@@ -52,7 +54,7 @@ public class RandomGenerator {
         int day = rng.nextInt(31) + 1;
         int year = rng.nextInt(3000);
 
-        StringBuilder randomDate = new StringBuilder();
+        StringBuffer randomDate = new StringBuffer();
         randomDate.append(month);
         randomDate.append("/");
         randomDate.append(day);
@@ -62,7 +64,7 @@ public class RandomGenerator {
     }
 
     public String generateRandomIP() {
-        StringBuilder randomIP = new StringBuilder();
+        StringBuffer randomIP = new StringBuffer();
         for (int x = 0; x < 3; x++) {
             randomIP.append(rng.nextInt(255));
             randomIP.append(".");

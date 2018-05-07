@@ -14,9 +14,4 @@ public class MerchantGenerator extends RandomGenerator {
         String merchantName = generateRandomString(20);
         merchantRepo.save(new Merchant(merchantName));
     }
-
-    public void generateMerchant(Long merchantID) {
-        String merchantName = generateRandomString(20);
-        merchantRepo.save(new Merchant(merchantID, merchantName));
-    }
 }

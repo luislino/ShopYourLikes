@@ -15,18 +15,7 @@ public class LinkGenerator extends RandomGenerator {
         String customTitle = generateRandomString(10);
         String originalURL = generateRandomURL(10);
         String imageRedirectPermahashLink = generateRandomString(40);
-        String linkName = generateRandomString(20);
         linkRepo.save(new Link(publisherID, merchantID, earnings, customTitle,
-                originalURL, imageRedirectPermahashLink));
-    }
-
-    public void generateLink(Long linkID, Long publisherID, Long merchantID) {
-        Double earnings = generateRandomDouble();
-        String customTitle = generateRandomString(10);
-        String originalURL = generateRandomURL(10);
-        String imageRedirectPermahashLink = generateRandomString(40);
-        String linkName = generateRandomString(20);
-        linkRepo.save(new Link(linkID, publisherID, merchantID, earnings, customTitle,
                 originalURL, imageRedirectPermahashLink));
     }
 }

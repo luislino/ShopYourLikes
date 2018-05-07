@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity // This tells Hibernate to make a table out of this class
 public class Link {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long linkID;      //Identifier for a given link
 
     private Long publisherID; //Identifier for an individual influencer
@@ -21,17 +21,6 @@ public class Link {
     private String imageRedirectPermahashLink;  //The unique hash code associated with a SYL Link
 
     protected Link() {}
-
-    public Link(Long linkID, Long publisherID, Long merchantID, Double earnings, String customTitle,
-                String originalURL, String imageRedirectPermahashLink) {
-        this.linkID = linkID;
-        this.publisherID = publisherID;
-        this.merchantID = merchantID;
-        this.earnings = earnings;
-        this.customTitle = customTitle;
-        this.originalURL = originalURL;
-        this.imageRedirectPermahashLink = imageRedirectPermahashLink;
-    }
 
     public Link(Long publisherID, Long merchantID, Double earnings, String customTitle, String originalURL,
                 String imageRedirectPermahashLink) {

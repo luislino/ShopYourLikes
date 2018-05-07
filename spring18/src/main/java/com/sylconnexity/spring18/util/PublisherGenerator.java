@@ -15,10 +15,4 @@ public class PublisherGenerator extends RandomGenerator {
         String apiKey = generateRandomString(19);
         publisherRepo.save(new Publisher(username, apiKey));
     }
-
-    public void generatePublisher(Long publisherID) {
-        String username = generateRandomString(20);
-        String apiKey = generateRandomString(19);
-        publisherRepo.save(new Publisher(publisherID, username, apiKey));
-    }
 }
