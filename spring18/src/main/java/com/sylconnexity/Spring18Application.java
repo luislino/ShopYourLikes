@@ -1,4 +1,4 @@
-package com.sylconnexity.spring18;
+package com.sylconnexity;
 
 
 import org.springframework.boot.SpringApplication;
