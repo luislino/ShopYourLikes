@@ -14,7 +14,7 @@ public class Link {
     private Long publisherID; //Identifier for an individual influencer
     private Long merchantID;  //The merchant identifier for where the SYL Link landed
 
-    private Long earnings;    //Amount of money the influencer has earned from a SYL Link
+    private Double earnings;    //Amount of money the influencer has earned from a SYL Link
 
     private String customTitle;                 //The title associated with the SYL Link that the user provided
     private String originalURL;                 //The original URL associated with the SYL Link that the user provided
@@ -22,7 +22,18 @@ public class Link {
 
     protected Link() {}
 
-    public Link(Long publisherID, Long merchantID, Long earnings, String customTitle, String originalURL,
+    public Link(Long linkID, Long publisherID, Long merchantID, Double earnings, String customTitle,
+                String originalURL, String imageRedirectPermahashLink) {
+        this.linkID = linkID;
+        this.publisherID = publisherID;
+        this.merchantID = merchantID;
+        this.earnings = earnings;
+        this.customTitle = customTitle;
+        this.originalURL = originalURL;
+        this.imageRedirectPermahashLink = imageRedirectPermahashLink;
+    }
+
+    public Link(Long publisherID, Long merchantID, Double earnings, String customTitle, String originalURL,
                 String imageRedirectPermahashLink) {
         this.publisherID = publisherID;
         this.merchantID = merchantID;
@@ -56,11 +67,11 @@ public class Link {
         this.merchantID = merchantID;
     }
 
-    public Long getEarnings() {
+    public Double getEarnings() {
         return earnings;
     }
 
-    public void setEarnings(Long earnings) {
+    public void setEarnings(Double earnings) {
         this.earnings = earnings;
     }
 

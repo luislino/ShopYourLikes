@@ -15,6 +15,11 @@ public class Merchant {
 
     protected Merchant() {}
 
+    public Merchant(Long merchantID, String merchantName) {
+        this.merchantID = merchantID;
+        this.merchantName = merchantName;
+    }
+
     public Merchant(String merchantName) {
         this.merchantName = merchantName;
     }

@@ -1,4 +1,4 @@
-package com.sylconnexity.spring18.controller;
+/*package com.sylconnexity.spring18.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,4 +30,4 @@ class DBController {
         // This returns a JSON or XML with the users
         return linkRepository.findAll();
     }
-}
+}*/

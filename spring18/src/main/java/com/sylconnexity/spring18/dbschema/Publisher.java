@@ -16,6 +16,12 @@ public class Publisher {
 
     protected Publisher() {}
 
+    public Publisher(Long publisherID, String username, String apiKey) {
+        this.publisherID = publisherID;
+        this.username = username;
+        this.apiKey = apiKey;
+    }
+
     public Publisher(String username, String apiKey) {
         this.username = username;
         this.apiKey = apiKey;

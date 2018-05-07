@@ -11,7 +11,9 @@ public class Click {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long clickID;       //Identifier for a given click
 
-    private Double orderAmount; //If the click converted to a sale this field will hold the total order amount
+    private Long linkID;
+
+    private Double orderAmount; //If the click converted to a sale this field will hold the total order amount in dollars
     private String orderNumber; //If the click converted to a sale this field will hold the order number associated with the order
     private Long unitsOrdered;  //If the click converted to a sale this field will hold the total number of items purchased with that order
 
@@ -23,8 +25,22 @@ public class Click {
 
     protected Click() {}
 
-    public Click(Double orderAmount, String orderNumber, Long unitsOrdered, Boolean convertedToSale,
-                 String redirectDate, String ipAddress, String dma) {
+    public Click(Long clickID, Long linkID, Double orderAmount, String orderNumber, Long unitsOrdered,
+                 Boolean convertedToSale, String redirectDate, String ipAddress, String dma) {
+        this.clickID = clickID;
+        this.linkID = linkID;
+        this.orderAmount = orderAmount;
+        this.orderNumber = orderNumber;
+        this.unitsOrdered = unitsOrdered;
+        this.convertedToSale = convertedToSale;
+        this.redirectDate = redirectDate;
+        this.ipAddress = ipAddress;
+        this.dma = dma;
+    }
+
+    public Click(Long linkID, Double orderAmount, String orderNumber, Long unitsOrdered,
+                 Boolean convertedToSale, String redirectDate, String ipAddress, String dma) {
+        this.linkID = linkID;
         this.orderAmount = orderAmount;
         this.orderNumber = orderNumber;
         this.unitsOrdered = unitsOrdered;
@@ -40,6 +56,14 @@ public class Click {
 
     public void setClickID(Long clickID) {
         this.clickID = clickID;
+    }
+
+    public Long getLinkID() {
+        return linkID;
+    }
+
+    public void setLinkID(Long linkID) {
+        this.linkID = linkID;
     }
 
     public Double getOrderAmount() {
