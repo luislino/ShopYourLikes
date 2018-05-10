@@ -19,33 +19,39 @@ public class Spring18Application {
 	}
 
 	@Bean
-	public CommandLineRunner generateMockData(ClickRepository clickRepo, LinkRepository linkRepo,
+	public CommandLineRunner generateMockDataRunner(ClickRepository clickRepo, LinkRepository linkRepo,
 											  MerchantRepository merchantRepo, PublisherRepository publisherRepo) {
 		return (args) -> {
-			PublisherGenerator publisherGenerator = new PublisherGenerator(publisherRepo);
-			MerchantGenerator merchantGenerator = new MerchantGenerator(merchantRepo);
-			LinkGenerator linkGenerator = new LinkGenerator(linkRepo);
-			ClickGenerator clickGenerator = new ClickGenerator(clickRepo);
-
-			System.out.println("Starting Generation of Mock Data");
-			for (int x = 1; x < 101; x++)
-				publisherGenerator.generatePublisher();
-			System.out.println("Publishers Generated");
-
-			for (int x = 1; x < 101; x++)
-				merchantGenerator.generateMerchant();
-			System.out.println("Merchants Generated");
-
-			for (int x = 1; x < 100; x++)
-				linkGenerator.generateLink((long) 1, (long) x);
-			System.out.println("Links Generated");
-
-			for (int x = 1; x < 101; x++) {
-				for (int y = 1; y < 101; y++)
-					clickGenerator.generateClick((long) x);
-			}
-			System.out.println("Clicks Generated");
-			System.out.println("Done Generating Mock Data");
+			if (publisherRepo.count() == 0)
+				generateMockData(clickRepo, linkRepo, merchantRepo, publisherRepo);
 		};
+	}
+
+	private void generateMockData(ClickRepository clickRepo, LinkRepository linkRepo,
+							  MerchantRepository merchantRepo, PublisherRepository publisherRepo) {
+		PublisherGenerator publisherGenerator = new PublisherGenerator(publisherRepo);
+		MerchantGenerator merchantGenerator = new MerchantGenerator(merchantRepo);
+		LinkGenerator linkGenerator = new LinkGenerator(linkRepo);
+		ClickGenerator clickGenerator = new ClickGenerator(clickRepo);
+
+		System.out.println("Starting Generation of Mock Data");
+		for (int x = 1; x < 101; x++)
+			publisherGenerator.generatePublisher();
+		System.out.println("Publishers Generated");
+
+		for (int x = 1; x < 101; x++)
+			merchantGenerator.generateMerchant();
+		System.out.println("Merchants Generated");
+
+		for (int x = 1; x < 100; x++)
+			linkGenerator.generateLink((long) 1, (long) x);
+		System.out.println("Links Generated");
+
+		for (int x = 1; x < 101; x++) {
+			for (int y = 1; y < 101; y++)
+				clickGenerator.generateClick((long) x);
+		}
+		System.out.println("Clicks Generated");
+		System.out.println("Done Generating Mock Data");
 	}
 }
