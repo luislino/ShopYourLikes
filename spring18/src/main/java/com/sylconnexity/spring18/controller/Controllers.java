@@ -1,4 +1,4 @@
-package com.sylconnexity.spring18;
+package com.sylconnexity.spring18.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
