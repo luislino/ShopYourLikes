@@ -5,6 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * A class defining the schema for Links. Links are uniquely identified by an automatically generated linkID
+ * and associated with the publisherID of a given publisher and the merchantID of a given merchant.
+ * <br><br>
+ * Links also have an associated earnings, the amount of money earned from the link. They have a customTitle provided
+ * by the user; an originalURL of the link before it was converted to a SYL link; and a imageRedirectPermahashLink, the
+ * unique hash code associated with the link.
+ */
 @Entity // This tells Hibernate to make a table out of this class
 public class Link {
     @Id
@@ -22,6 +30,15 @@ public class Link {
 
     protected Link() {}
 
+    /**
+     * Constructs a Link with an automatically generated, unique linkID.
+     * @param publisherID Identifier for an individual influencer
+     * @param merchantID The merchant identifier for where the SYL Link landed
+     * @param earnings Amount of money the influencer has earned from a SYL Link
+     * @param customTitle The title associated with the SYL Link that the user provided
+     * @param originalURL The original URL associated with the SYL Link that the user provided
+     * @param imageRedirectPermahashLink The unique hash code associated with a SYL Link
+     */
     public Link(Long publisherID, Long merchantID, Double earnings, String customTitle, String originalURL,
                 String imageRedirectPermahashLink) {
         this.publisherID = publisherID;

@@ -5,6 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * A class defining the schema for Publishers. Publishers are uniquely identified by an automatically generated publisherID.
+ * <br><br>
+ * Publishers also have an associated username and apiKey.
+ */
 @Entity // This tells Hibernate to make a table out of this class
 public class Publisher {
     @Id
@@ -16,6 +21,11 @@ public class Publisher {
 
     protected Publisher() {}
 
+    /**
+     * Constructs a Publisher with an automatically generated, unique publisherID.
+     * @param username Username associated with the influencer
+     * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
+     */
     public Publisher(String username, String apiKey) {
         this.username = username;
         this.apiKey = apiKey;
