@@ -1,4 +1,4 @@
-package com.sylconnexity;
+package com.sylconnexity.spring18;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,13 +11,28 @@ import com.sylconnexity.spring18.util.LinkGenerator;
 import com.sylconnexity.spring18.util.MerchantGenerator;
 import com.sylconnexity.spring18.util.PublisherGenerator;
 
+/**
+ * The entrypoint of the application.
+ */
 @SpringBootApplication
 public class Spring18Application {
 
+	/**
+	 * Runs the application.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(Spring18Application.class, args);
 	}
 
+	/**
+	 * Runs the generation of mock data.
+	 * @param clickRepo A click repository
+	 * @param linkRepo A link repository
+	 * @param merchantRepo A merchant repository
+	 * @param publisherRepo A publisher repository
+	 * @return A function that generates mock data if the publisher database is empty.
+	 */
 	@Bean
 	public CommandLineRunner generateMockDataRunner(ClickRepository clickRepo, LinkRepository linkRepo,
 											  MerchantRepository merchantRepo, PublisherRepository publisherRepo) {
