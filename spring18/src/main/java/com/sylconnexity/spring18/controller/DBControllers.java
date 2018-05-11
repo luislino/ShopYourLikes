@@ -103,9 +103,12 @@ class PublisherController {
     @Autowired
     private PublisherRepository publisherRepository;
 
-    @GetMapping(path="/")
-    public @ResponseBody Iterable<Publisher> getAllPublishers() {
-        return publisherRepository.findAll();
+    @GetMapping(path="")
+    public @ResponseBody Iterable<Publisher> getPublishers(@RequestParam(value="username", defaultValue="") String username) {
+        if (username.equals(""))
+            return publisherRepository.findAll();
+        else
+            return publisherRepository.findByUsername(username);
     }
 
     @GetMapping(path="/{id}")
@@ -115,5 +118,33 @@ class PublisherController {
             return res.get();
         else
             return null;
+    }
+
+    @PostMapping(path="")
+    public @ResponseBody Publisher savePublisher(@RequestParam(value="username") String username,
+                                                 @RequestParam(value="apiKey") String apiKey) {
+        Publisher created = new Publisher(username, apiKey);
+        return publisherRepository.save(created);
+    }
+
+    @PostMapping(path="/{id}")
+    public @ResponseBody Publisher savePublisherByID(@PathVariable(value="id") Long id,
+                                                     @RequestParam(value="username", defaultValue="") String username,
+                                                     @RequestParam(value="apiKey", defaultValue="") String apiKey) {
+        if (publisherRepository.existsById(id)) {
+            Publisher old = publisherRepository.findById(id).get();
+            if (!username.equals(""))
+                old.setUsername(username);
+            if (!apiKey.equals(""))
+                old.setApiKey(apiKey);
+            return publisherRepository.save(old);
+        }
+        return null;
+    }
+
+    @DeleteMapping(path="/{id}")
+    public @ResponseBody void deletePublisher(@PathVariable(value="id") Long id) {
+        if (publisherRepository.existsById(id))
+            publisherRepository.deleteById(id);
     }
 }

@@ -10,8 +10,8 @@ import org.springframework.data.repository.CrudRepository;
 public interface MerchantRepository extends CrudRepository<Merchant, Long> {
     /**
      * Find Merchants with the given name.
-     * @param MerchantName The name of a merchant
+     * @param merchantName The name of a merchant
      * @return A list of merchants with the given merchant name
      */
-    List<Merchant> findByMerchantName(String MerchantName);
+    List<Merchant> findByMerchantName(String merchantName);
 }
