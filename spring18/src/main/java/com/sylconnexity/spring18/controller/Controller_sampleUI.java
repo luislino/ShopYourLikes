@@ -9,24 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * test.
  */
-@Controller
-class index_Controller {
-
-    @GetMapping("/")
-    public ModelAndView example(@RequestParam(value = "name", defaultValue="User") String value){
-        ModelAndView result = new ModelAndView();
-        result.addObject("userName", value);
-
-        result.setViewName("index");
-
-        return result;
-    }
-
-}
 
 // Controller for a sample of an analytics UI
 @Controller
-class sampleUI_Controller {
+public class Controller_sampleUI{
     @GetMapping("/sampleUI")
     public ModelAndView sample_view(@RequestParam(value = "name", defaultValue="User") String value){
         ModelAndView result = new ModelAndView();
@@ -37,14 +23,4 @@ class sampleUI_Controller {
     }
 
 
-}
-
-@Controller
-@RequestMapping("/error")
-class error_404_Controller {
-    public ModelAndView error404Page(){
-        ModelAndView result = new ModelAndView();
-        result.setViewName("error");
-        return result;
-    }
 }
