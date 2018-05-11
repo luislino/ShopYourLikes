@@ -93,6 +93,22 @@
             } );
         } );
 
+        // Toggle between showing and hiding the sidebar, and add overlay effect
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        }
+
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
     </script>
 </head>
 <body class="w3-light-grey">
@@ -104,7 +120,7 @@
 </div>
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:25%;" id="mySidebar"><br>
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
     <div class="w3-container w3-row">
         <div class="w3-col s4">
             <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
@@ -175,7 +191,7 @@
     </table>
 </div>
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-top:43px;margin-left:25%">
+<div class="w3-main" style="margin-top:43px;margin-left:300px">
 
 
     <div class="w3-container">

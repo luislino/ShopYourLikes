@@ -17,8 +17,8 @@ class index_Controller {
         ModelAndView result = new ModelAndView();
         result.addObject("userName", value);
 
-        result.setViewName("index");
-
+        //result.setViewName("index");
+        result.setViewName("sampleAnalyticsUI/sample");
         return result;
     }
 
