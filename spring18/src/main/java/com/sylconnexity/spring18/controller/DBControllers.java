@@ -2,11 +2,7 @@ package com.sylconnexity.spring18.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import com.sylconnexity.spring18.dbschema.*;
 
@@ -60,9 +56,12 @@ class MerchantController {
     @Autowired
     private MerchantRepository merchantRepository;
 
-    @GetMapping(path="/")
-    public @ResponseBody Iterable<Merchant> getAllMerchants() {
-        return merchantRepository.findAll();
+    @GetMapping(path="")
+    public @ResponseBody Iterable<Merchant> getMerchants(@RequestParam(value="merchantName", defaultValue="") String merchantName) {
+        if (merchantName.equals(""))
+            return merchantRepository.findAll();
+        else
+            return merchantRepository.findByMerchantName(merchantName);
     }
 
     @GetMapping(path="/{id}")
@@ -72,6 +71,29 @@ class MerchantController {
             return res.get();
         else
             return null;
+    }
+
+    @PostMapping(path="")
+    public @ResponseBody Merchant saveMerchant(@RequestParam(value="merchantName") String merchantName) {
+        Merchant created = new Merchant(merchantName);
+        return merchantRepository.save(created);
+    }
+
+    @PostMapping(path="/{id}")
+    public @ResponseBody Merchant saveMerchantByID(@PathVariable(value="id") Long id,
+                                                   @RequestParam(value="merchantName") String merchantName) {
+        if (merchantRepository.existsById(id)) {
+            Merchant old = merchantRepository.findById(id).get();
+            old.setMerchantName(merchantName);
+            return merchantRepository.save(old);
+        }
+        return null;
+    }
+
+    @DeleteMapping(path="/{id}")
+    public @ResponseBody void deleteMerchant(@PathVariable(value="id") Long id) {
+        if (merchantRepository.existsById(id))
+            merchantRepository.deleteById(id);
     }
 }
 
