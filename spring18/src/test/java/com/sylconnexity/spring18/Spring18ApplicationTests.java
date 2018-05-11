@@ -17,7 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
  * Tests for the application.
  */
 
-// Ensures the spring application context will load
+// Ensures the spring application context will load and HTTP response appropriately
+	// incorporates parameter name into static view page
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc

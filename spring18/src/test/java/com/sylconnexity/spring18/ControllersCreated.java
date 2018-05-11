@@ -12,6 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 // Ensures that the application context is creating controllers
 
+/**
+ * Test Cases that test integration of Controllers into Spring Application
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ControllersCreated {
