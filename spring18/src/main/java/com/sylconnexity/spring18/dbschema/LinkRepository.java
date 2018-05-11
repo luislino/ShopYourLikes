@@ -10,8 +10,24 @@ import org.springframework.data.repository.CrudRepository;
 public interface LinkRepository extends CrudRepository<Link, Long> {
 
     /**
+     * Find links with the given publisher ID.
      * @param publisherID The ID of a publisher
      * @return A list of Links with the given publisherID
      */
     List<Link> findByPublisherID(Long publisherID);
+
+    /**
+     * Find links with the given merchant ID
+     * @param merchantID The ID of a merchant
+     * @return A list of Links with the given merchantID
+     */
+    List<Link> findByMerchantID(Long merchantID);
+
+    /**
+     * Find links with the given publisher ID and the given merchant ID.
+     * @param publisherID The ID of a publisher
+     * @param merchantID The ID of a merchant
+     * @return A list of Links with the given associated IDs
+     */
+    List<Link> findByPublisherIDAndMerchantID(Long publisherID, Long merchantID);
 }
