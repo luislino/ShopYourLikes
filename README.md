@@ -10,9 +10,10 @@ Insert intro text
 
 ## Building Database
 
-In order to run, this application requires a working database. Enter `mysql` from the command line and run the following commands to match the `application.properties` file of the build (Note that these configurations are for development purposes, and as such they do not pretend to have any security. DDL is also set to create-drop to reinitialize new mock data at every new build).
+In order to run, this application requires a working database. Enter `mysql` from the command line and run the following commands to match the `application.properties` file of the build (Note that these configurations are for development purposes, and as such they do not pretend to have any security.).
 
 1. `CREATE DATABASE syldb;`
 2. `CREATE USER 'syl'@'localhost' identified by 'password';`
 3. `GRANT ALL ON syldb.* to 'syl'@'localhost';`
 
+After this, the application needs to be initialized. In `application.properties`, there is a `spring.jpa.hibernate.ddl-auto` variable currently set to `none`. Set this to `create` for the first run of the application. On subsequent runs, set it to `none` (or `update` if you wish to change the schema).
