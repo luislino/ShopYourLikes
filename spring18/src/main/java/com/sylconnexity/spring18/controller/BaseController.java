@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Base Controller
@@ -26,16 +28,50 @@ public class BaseController {
     @Autowired
     private PublisherRepository publisherRepository;
 
-
+    /**
+     * Main controller that we will use the modelandview in
+     * @param value The user name
+     * @param defaultValue
+     */
     @GetMapping("/sampleUI")
     public ModelAndView sample_view(@RequestParam(value = "name", defaultValue="User") String value){
         ModelAndView result = new ModelAndView();
         result.addObject("userName", value);
         result.setViewName("sampleAnalyticsUI/sample");
-
-
+//        long a = 0;
+//        long b = 1;
+//
+//        List<Link> llist = getLinks(a, b);
         return result;
     }
+
+    private class LinkList implements Iterable<Link>{
+        private List<Link> Link_List = new ArrayList<Link>();
+
+        @Override
+        public Iterator<Link> iterator(){
+            return new Iterator<Link>(){
+                private final Iterator<Link> iter = Link_List.iterator();
+
+                @Override
+                public boolean hasNext() {
+                    return iter.hasNext();
+                }
+
+                @Override
+                public Link next() {
+                    return iter.next();
+                }
+
+                @Override
+                public void remove() {
+                    throw new UnsupportedOperationException("Removal failed. no changes allowed");
+                }
+
+            };
+        }
+    }
+
 
     /**
      * Get the Links with the associated publisherID or merchantID if provided.
