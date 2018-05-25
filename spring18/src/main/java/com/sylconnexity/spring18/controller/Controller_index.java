@@ -13,7 +13,6 @@ public class Controller_index {
     public ModelAndView example(@RequestParam(value = "name", defaultValue="User") String value){
         ModelAndView result = new ModelAndView();
         result.addObject("userName", value);
-
         result.setViewName("index");
 
         return result;

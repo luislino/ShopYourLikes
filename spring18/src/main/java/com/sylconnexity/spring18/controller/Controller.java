@@ -23,6 +23,17 @@ public class DBController_Link {
     @Autowired
     private PublisherRepository publisherRepository;
 
+
+    @GetMapping("/sampleUI")
+    public ModelAndView sample_view(@RequestParam(value = "name", defaultValue="User") String value){
+        ModelAndView result = new ModelAndView();
+        result.addObject("userName", value);
+        result.setViewName("sampleAnalyticsUI/sample");
+
+
+        return result;
+    }
+
     /**
      * Get the Links with the associated publisherID or merchantID if provided.
      * @param publisherID The ID of an associated publisher
