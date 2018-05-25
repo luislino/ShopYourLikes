@@ -23,13 +23,13 @@ After this, the application needs to be initialized. In `application.properties`
 The database schema is available at the following REST API endpoints, with CRUD operations available through GET, POST, and DELETE requests:
 
 Overall:
-* /clicks - GET with optional params linkID; POST with required params linkID, orderAmount, orderNumber, unitsOrdered, convertedToSale, redirectDate, ipAddress, dma (linkID must actually exist)
-* /links - GET with optional params publisherID, merchantID; POST with required params publisherID, merchantID, earnings, originalURL, imageRedirectPermahashlink and optional params customTitle (publisherID and merchantID must actually exist) 
-* /merchants - GET with optional params merchantName; POST with required params merchantName
-* /publishers - GET with optional params username; POST with required params username, apiKey
+* /clicks - *GET* with optional params linkID; *POST* with required params linkID, orderAmount, orderNumber, unitsOrdered, convertedToSale, redirectDate, ipAddress, dma (linkID must actually exist)
+* /links - *GET* with optional params publisherID, merchantID; *POST* with required params publisherID, merchantID, earnings, originalURL, imageRedirectPermahashlink and optional params customTitle (publisherID and merchantID must actually exist) 
+* /merchants - *GET* with optional params merchantName; *POST* with required params merchantName
+* /publishers - *GET* with optional params username; *POST* with required params username, apiKey
 
 ID specific:
-* /clicks/{id} - GET with clickID as {id} (returns null if unavailable), DELETE
-* /links/{id} - GET with linkID as {id} (returns null if unavailable), DELETE (also deletes associated clicks), POST with optional params earnings, customTitle to update data with given id
-* /merchants/{id} - GET with merchantID as {id} (returns null if unavailable), DELETE (also deletes associated clicks and links), POST with required params merchantName
-* /publishers/{id} - GET with publisherID as {id} (returns null if unavailable), DELETE (also deletes associated clicks and links), POST with optional params username, apiKey
+* /clicks/{id} - *GET* with clickID as {id} (returns null if unavailable), *DELETE*
+* /links/{id} - *GET* with linkID as {id} (returns null if unavailable), *DELETE* (also deletes associated clicks), POST with optional params earnings, customTitle to update data with given id
+* /merchants/{id} - *GET* with merchantID as {id} (returns null if unavailable), DELETE (also deletes associated clicks and links), POST with required params merchantName
+* /publishers/{id} - *GET* with publisherID as {id} (returns null if unavailable), DELETE (also deletes associated clicks and links), POST with optional params username, apiKey
