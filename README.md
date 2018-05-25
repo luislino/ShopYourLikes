@@ -30,6 +30,6 @@ Overall:
 
 ID specific:
 * /clicks/{id} - *GET* with clickID as {id} (returns null if unavailable), *DELETE*
-* /links/{id} - *GET* with linkID as {id} (returns null if unavailable), *DELETE* (also deletes associated clicks), POST with optional params earnings, customTitle to update data with given id
-* /merchants/{id} - *GET* with merchantID as {id} (returns null if unavailable), DELETE (also deletes associated clicks and links), POST with required params merchantName
-* /publishers/{id} - *GET* with publisherID as {id} (returns null if unavailable), DELETE (also deletes associated clicks and links), POST with optional params username, apiKey
+* /links/{id} - *GET* with linkID as {id} (returns null if unavailable), *DELETE* (also deletes associated clicks), *POST* with optional params earnings, customTitle to update data with given id
+* /merchants/{id} - *GET* with merchantID as {id} (returns null if unavailable), *DELETE* (also deletes associated clicks and links), *POST* with required params merchantName
+* /publishers/{id} - *GET* with publisherID as {id} (returns null if unavailable), *DELETE* (also deletes associated clicks and links), *POST* with optional params username, apiKey
