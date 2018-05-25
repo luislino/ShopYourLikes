@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="160bd57b-27b2-4eea-9885-a7f4f3d59128" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_index.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_index.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_sampleUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/DBController_Link.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/BaseController.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -45,8 +43,11 @@
       <file leaf-file-name="Controller_index.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_index.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="34">
+              <caret line="2" selection-start-line="2" selection-end-line="5" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -59,7 +60,7 @@
       <file leaf-file-name="DBController_Click.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/DBController_Click.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-384">
+            <state relative-caret-position="177">
               <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
             </state>
           </provider>
@@ -72,11 +73,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller.java">
+      <file leaf-file-name="BaseController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/BaseController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="22" column="14" lean-forward="true" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
+              <caret line="16" column="11" lean-forward="true" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -101,6 +105,7 @@
       <find>links</find>
       <find>index</find>
       <find>username</find>
+      <find>DBController</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,6 +125,8 @@
         <option value="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_index.java" />
         <option value="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_sampleUI.java" />
         <option value="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/DBController_Link.java" />
+        <option value="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller.java" />
+        <option value="$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/BaseController.java" />
       </list>
     </option>
   </component>
@@ -591,13 +598,6 @@
     <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/dbschema/ClickRepository.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/DBController_Click.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-384">
-          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/dbschema/LinkRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-98" />
@@ -617,13 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_index.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_sampleUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -638,10 +631,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller.java">
+    <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/DBController_Click.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/Controller_index.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="5" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spring18/src/main/java/com/sylconnexity/spring18/controller/BaseController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="22" column="14" lean-forward="true" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
+          <caret line="16" column="11" lean-forward="true" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
