@@ -33,12 +33,12 @@ public class ControllersCreated {
         assertThat(controllerIndex).isNotNull();
     }
 
-    @Autowired
+    /*@Autowired
     private Controller_sampleUI controllerSampleUI;
     @Test
     public void sampleUI() throws Exception {
         assertThat(controllerSampleUI).isNotNull();
-    }
+    }*/
 
     @Autowired
     private DBController_Click dbControllerClick;
