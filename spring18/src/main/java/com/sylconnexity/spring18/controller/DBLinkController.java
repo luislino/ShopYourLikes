@@ -2,6 +2,9 @@ package com.sylconnexity.spring18.controller;
 
 import com.sylconnexity.spring18.dbschema.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +32,7 @@ public class DBLinkController {
      * @param merchantID The ID of an associated merchant
      * @return A list of links, filtered by the given IDs if provided
      */
+    @Cacheable("Links")
     @GetMapping(path="")
     public @ResponseBody Iterable<Link> getLinks(@RequestParam(value="publisherID", defaultValue="-1") Long publisherID,
                             @RequestParam(value="merchantID", defaultValue="-1") Long merchantID) {
@@ -46,6 +50,7 @@ public class DBLinkController {
      * @param linkID The ID of a link
      * @return The link with the given ID or null if it does not exist
      */
+    @Cacheable("Link")
     @GetMapping(path="/{id}")
     public @ResponseBody Link getLinkByID(@PathVariable(value="id") Long linkID) {
         Optional<Link> res = linkRepository.findById(linkID);
@@ -64,6 +69,7 @@ public class DBLinkController {
      * @param imageRedirectPermahashLink The unique hash code associated with a SYL Link
      * @return The newly created Link
      */
+    @CacheEvict(cacheNames={"Link", "Links"}, allEntries=true)
     @PostMapping(path="")
     public @ResponseBody Link saveLink(@RequestParam(value="publisherID") Long publisherID,
                                            @RequestParam(value="merchantID") Long merchantID,
@@ -85,6 +91,8 @@ public class DBLinkController {
      * @param customTitle The new title of the link
      * @return The updated Link, or null if the original ID did not exist
      */
+    @CachePut(cacheNames="Link", key="#linkID")
+    @CacheEvict(cacheNames="Links", allEntries=true)
     @PostMapping(path="/{id}")
     public @ResponseBody Link saveLinkByID(@PathVariable(value="id") Long linkID,
                                            @RequestParam(value="earnings", defaultValue="-1.0") Double earnings,
@@ -104,6 +112,7 @@ public class DBLinkController {
      * Deletes the Link with the given ID and its associated clicks.
      * @param linkID The ID of a Link
      */
+    @CacheEvict(cacheNames={"Click", "Clicks", "Link", "Links"}, allEntries=true)
     @DeleteMapping(path="/{id}")
     public @ResponseBody void deleteLink(@PathVariable(value="id") Long linkID) {
         if (linkRepository.existsById(linkID))

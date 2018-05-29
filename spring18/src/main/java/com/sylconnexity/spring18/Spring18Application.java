@@ -60,7 +60,7 @@ public class Spring18Application {
 			merchantGenerator.generateMerchant();
 		System.out.println("Merchants Generated");
 
-		for (int x = 1; x < 100; x++)
+		for (int x = 1; x < 101; x++)
 			linkGenerator.generateLink((long) 1, (long) x);
 		System.out.println("Links Generated");
 

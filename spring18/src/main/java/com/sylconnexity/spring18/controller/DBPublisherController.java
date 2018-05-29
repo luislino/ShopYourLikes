@@ -1,6 +1,9 @@
 package com.sylconnexity.spring18.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,7 @@ public class DBPublisherController {
      * @param username A username of Publishers
      * @return A list of publishers, filtered by the provided username if given
      */
+    @Cacheable("Publishers")
     @GetMapping(path="")
     public @ResponseBody Iterable<Publisher> getPublishers(@RequestParam(value="username", defaultValue="") String username) {
         if (!username.equals(""))
@@ -39,6 +43,7 @@ public class DBPublisherController {
      * @param publisherID The ID of a publisher
      * @return The Publisher with the given ID, or null if it does not exist
      */
+    @Cacheable("Publisher")
     @GetMapping(path="/{id}")
     public @ResponseBody Publisher getPublisherByID(@PathVariable(value="id") Long publisherID) {
         Optional<Publisher> res = publisherRepository.findById(publisherID);
@@ -53,6 +58,7 @@ public class DBPublisherController {
      * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
      * @return The newly created Publisher
      */
+    @CacheEvict(cacheNames={"Publisher", "Publishers"}, allEntries=true)
     @PostMapping(path="")
     public @ResponseBody Publisher savePublisher(@RequestParam(value="username") String username,
                                                  @RequestParam(value="apiKey") String apiKey) {
@@ -67,6 +73,8 @@ public class DBPublisherController {
      * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
      * @return The updated Publisher, or null if the original did not exist
      */
+    @CachePut(cacheNames="Publisher", key="#publisherID")
+    @CacheEvict(cacheNames="Publishers", allEntries=true)
     @PostMapping(path="/{id}")
     public @ResponseBody Publisher savePublisherByID(@PathVariable(value="id") Long publisherID,
                                                      @RequestParam(value="username", defaultValue="") String username,
@@ -86,6 +94,7 @@ public class DBPublisherController {
      * Deletes a Publisher with the given ID and all of its associated links and clicks.
      * @param publisherID The ID of a publisher
      */
+    @CacheEvict(cacheNames={"Click", "Clicks", "Link", "Links", "Publisher", "Publishers"}, allEntries=true)
     @DeleteMapping(path="/{id}")
     public @ResponseBody void deletePublisher(@PathVariable(value="id") Long publisherID) {
         if (publisherRepository.existsById(publisherID))
