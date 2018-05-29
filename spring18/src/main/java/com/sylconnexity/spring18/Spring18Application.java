@@ -21,7 +21,7 @@ public class Spring18Application {
 
 	/**
 	 * Runs the application.
-	 * @param args
+	 * @param args Arguments to main
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(Spring18Application.class, args);
