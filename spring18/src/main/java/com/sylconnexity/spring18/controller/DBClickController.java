@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping(path="/clicks")
-public class DBController_Click {
+public class DBClickController {
     @Autowired
     private ClickRepository clickRepository;
     @Autowired

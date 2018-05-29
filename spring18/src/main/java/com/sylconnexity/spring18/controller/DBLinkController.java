@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping(path="/links")
-public class DBController_Link {
+public class DBLinkController {
     @Autowired
     private ClickRepository clickRepository;
     @Autowired

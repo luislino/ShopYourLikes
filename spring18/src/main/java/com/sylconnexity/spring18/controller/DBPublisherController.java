@@ -14,7 +14,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping(path="/publishers")
-public class DBController_Publisher {
+public class DBPublisherController {
     @Autowired
     private PublisherRepository publisherRepository;
     @Autowired

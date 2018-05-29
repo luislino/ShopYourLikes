@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping(path="/merchants")
-public class DBController_Merchant {
+public class DBMerchantController {
     @Autowired
     private MerchantRepository merchantRepository;
     @Autowired
