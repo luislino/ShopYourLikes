@@ -3,6 +3,7 @@ package com.sylconnexity.spring18;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 import com.sylconnexity.spring18.dbschema.*;
@@ -15,6 +16,7 @@ import com.sylconnexity.spring18.util.PublisherGenerator;
  * The entrypoint of the application.
  */
 @SpringBootApplication
+@EnableCaching
 public class Spring18Application {
 
 	/**
@@ -58,7 +60,7 @@ public class Spring18Application {
 			merchantGenerator.generateMerchant();
 		System.out.println("Merchants Generated");
 
-		for (int x = 1; x < 100; x++)
+		for (int x = 1; x < 101; x++)
 			linkGenerator.generateLink((long) 1, (long) x);
 		System.out.println("Links Generated");
 

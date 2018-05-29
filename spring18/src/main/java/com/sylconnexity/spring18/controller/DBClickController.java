@@ -4,6 +4,9 @@ import com.sylconnexity.spring18.dbschema.Click;
 import com.sylconnexity.spring18.dbschema.ClickRepository;
 import com.sylconnexity.spring18.dbschema.LinkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +17,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping(path="/clicks")
-public class DBController_Click {
+public class DBClickController {
     @Autowired
     private ClickRepository clickRepository;
     @Autowired
@@ -25,9 +28,9 @@ public class DBController_Click {
      * @param linkID The ID of an associated link
      * @return A list of Clicks, with the given link ID if provided
      */
+    @Cacheable("Clicks")
     @GetMapping(path="")
-    public @ResponseBody
-    Iterable<Click> getClicks(@RequestParam(value="linkID", defaultValue="-1") Long linkID) {
+    public @ResponseBody Iterable<Click> getClicks(@RequestParam(value="linkID", defaultValue="-1") Long linkID) {
         if (linkID >= 0)
             return clickRepository.findByLinkID(linkID);
         return clickRepository.findAll();
@@ -35,12 +38,13 @@ public class DBController_Click {
 
     /**
      * Get the Click with the given ID.
-     * @param id The ID of a click
+     * @param clickID The ID of a click
      * @return The click with the given ID or null if it does not exist
      */
+    @Cacheable("Click")
     @GetMapping(path="/{id}")
-    public @ResponseBody Click getClickByID(@PathVariable(value="id") Long id) {
-        Optional<Click> res = clickRepository.findById(id);
+    public @ResponseBody Click getClickByID(@PathVariable(value="id") Long clickID) {
+        Optional<Click> res = clickRepository.findById(clickID);
         if (!res.isPresent())
             return null;
         return res.get();
@@ -58,6 +62,7 @@ public class DBController_Click {
      * @param dma The designated market area
      * @return The newly created click
      */
+    @CacheEvict(cacheNames={"Click", "Clicks"}, allEntries=true)
     @PostMapping(path="")
     public @ResponseBody Click saveClick(@RequestParam(value="linkID") Long linkID,
                                          @RequestParam(value="orderAmount") Double orderAmount,
@@ -76,11 +81,12 @@ public class DBController_Click {
 
     /**
      * Deletes the Click with the given ID if it exists.
-     * @param id An ID of a Click
+     * @param clickID An ID of a Click
      */
+    @CacheEvict(cacheNames={"Click", "Clicks"}, allEntries=true)
     @DeleteMapping(path="/{id}")
-    public @ResponseBody void deleteClick(@PathVariable(value="id") Long id) {
-        if (clickRepository.existsById(id))
-            clickRepository.deleteById(id);
+    public @ResponseBody void deleteClick(@PathVariable(value="id") Long clickID) {
+        if (clickRepository.existsById(clickID))
+            clickRepository.deleteById(clickID);
     }
 }

@@ -1,6 +1,9 @@
 package com.sylconnexity.spring18.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +17,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping(path="/publishers")
-public class DBController_Publisher {
+public class DBPublisherController {
     @Autowired
     private PublisherRepository publisherRepository;
     @Autowired
@@ -27,6 +30,7 @@ public class DBController_Publisher {
      * @param username A username of Publishers
      * @return A list of publishers, filtered by the provided username if given
      */
+    @Cacheable("Publishers")
     @GetMapping(path="")
     public @ResponseBody Iterable<Publisher> getPublishers(@RequestParam(value="username", defaultValue="") String username) {
         if (!username.equals(""))
@@ -36,12 +40,13 @@ public class DBController_Publisher {
 
     /**
      * Returns the Publisher with the given ID if it exists.
-     * @param id The ID of a publisher
+     * @param publisherID The ID of a publisher
      * @return The Publisher with the given ID, or null if it does not exist
      */
+    @Cacheable("Publisher")
     @GetMapping(path="/{id}")
-    public @ResponseBody Publisher getPublisherByID(@PathVariable(value="id") Long id) {
-        Optional<Publisher> res = publisherRepository.findById(id);
+    public @ResponseBody Publisher getPublisherByID(@PathVariable(value="id") Long publisherID) {
+        Optional<Publisher> res = publisherRepository.findById(publisherID);
         if (!res.isPresent())
             return null;
         return res.get();
@@ -53,6 +58,7 @@ public class DBController_Publisher {
      * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
      * @return The newly created Publisher
      */
+    @CacheEvict(cacheNames={"Publisher", "Publishers"}, allEntries=true)
     @PostMapping(path="")
     public @ResponseBody Publisher savePublisher(@RequestParam(value="username") String username,
                                                  @RequestParam(value="apiKey") String apiKey) {
@@ -62,19 +68,21 @@ public class DBController_Publisher {
 
     /**
      * Updates the username and API Key of the Publisher with the given ID if provided.
-     * @param id The ID of a Publisher
+     * @param publisherID The ID of a Publisher
      * @param username Username associated with the influencer
      * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
      * @return The updated Publisher, or null if the original did not exist
      */
+    @CachePut(cacheNames="Publisher", key="#publisherID")
+    @CacheEvict(cacheNames="Publishers", allEntries=true)
     @PostMapping(path="/{id}")
-    public @ResponseBody Publisher savePublisherByID(@PathVariable(value="id") Long id,
+    public @ResponseBody Publisher savePublisherByID(@PathVariable(value="id") Long publisherID,
                                                      @RequestParam(value="username", defaultValue="") String username,
                                                      @RequestParam(value="apiKey", defaultValue="") String apiKey) {
-        if (!publisherRepository.existsById(id)) {
+        if (!publisherRepository.existsById(publisherID)) {
             return null;
         }
-        Publisher old = publisherRepository.findById(id).get();
+        Publisher old = publisherRepository.findById(publisherID).get();
         if (!username.equals(""))
             old.setUsername(username);
         if (!apiKey.equals(""))
@@ -84,13 +92,14 @@ public class DBController_Publisher {
 
     /**
      * Deletes a Publisher with the given ID and all of its associated links and clicks.
-     * @param id The ID of a publisher
+     * @param publisherID The ID of a publisher
      */
+    @CacheEvict(cacheNames={"Click", "Clicks", "Link", "Links", "Publisher", "Publishers"}, allEntries=true)
     @DeleteMapping(path="/{id}")
-    public @ResponseBody void deletePublisher(@PathVariable(value="id") Long id) {
-        if (publisherRepository.existsById(id))
-            publisherRepository.deleteById(id);
-        List<Link> links = linkRepository.findByPublisherID(id);
+    public @ResponseBody void deletePublisher(@PathVariable(value="id") Long publisherID) {
+        if (publisherRepository.existsById(publisherID))
+            publisherRepository.deleteById(publisherID);
+        List<Link> links = linkRepository.findByPublisherID(publisherID);
         if (links == null)
             return;
 
