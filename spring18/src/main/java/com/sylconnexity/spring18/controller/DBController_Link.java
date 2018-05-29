@@ -30,8 +30,7 @@ public class DBController_Link {
      * @return A list of links, filtered by the given IDs if provided
      */
     @GetMapping(path="")
-    public @ResponseBody
-    Iterable<Link> getLinks(@RequestParam(value="publisherID", defaultValue="-1") Long publisherID,
+    public @ResponseBody Iterable<Link> getLinks(@RequestParam(value="publisherID", defaultValue="-1") Long publisherID,
                             @RequestParam(value="merchantID", defaultValue="-1") Long merchantID) {
         if (publisherID >= 0 && merchantID >= 0)
             return linkRepository.findByPublisherIDAndMerchantID(publisherID, merchantID);
@@ -44,12 +43,12 @@ public class DBController_Link {
 
     /**
      * Gets the Link with the given ID if it exists.
-     * @param id The ID of a link
+     * @param linkID The ID of a link
      * @return The link with the given ID or null if it does not exist
      */
     @GetMapping(path="/{id}")
-    public @ResponseBody Link getLinkByID(@PathVariable(value="id") Long id) {
-        Optional<Link> res = linkRepository.findById(id);
+    public @ResponseBody Link getLinkByID(@PathVariable(value="id") Long linkID) {
+        Optional<Link> res = linkRepository.findById(linkID);
         if (!res.isPresent())
             return null;
         return res.get();
@@ -81,19 +80,19 @@ public class DBController_Link {
 
     /**
      * Updates the Link with the given ID if it exists with the provided information.
-     * @param id The ID of a Link
+     * @param linkID The ID of a Link
      * @param earnings The new earnings of the link
      * @param customTitle The new title of the link
      * @return The updated Link, or null if the original ID did not exist
      */
     @PostMapping(path="/{id}")
-    public @ResponseBody Link saveLinkByID(@PathVariable(value="id") Long id,
+    public @ResponseBody Link saveLinkByID(@PathVariable(value="id") Long linkID,
                                            @RequestParam(value="earnings", defaultValue="-1.0") Double earnings,
                                            @RequestParam(value="customTitle", defaultValue="") String customTitle) {
-        if (!linkRepository.existsById(id)) {
+        if (!linkRepository.existsById(linkID)) {
             return null;
         }
-        Link old = linkRepository.findById(id).get();
+        Link old = linkRepository.findById(linkID).get();
         if (earnings > 0)
             old.setEarnings(earnings);
         if (!customTitle.equals(""))
@@ -103,13 +102,13 @@ public class DBController_Link {
 
     /**
      * Deletes the Link with the given ID and its associated clicks.
-     * @param id The ID of a Link
+     * @param linkID The ID of a Link
      */
     @DeleteMapping(path="/{id}")
-    public @ResponseBody void deleteLink(@PathVariable(value="id") Long id) {
-        if (linkRepository.existsById(id))
-            linkRepository.deleteById(id);
-        List<Click> clicks = clickRepository.findByLinkID(id);
+    public @ResponseBody void deleteLink(@PathVariable(value="id") Long linkID) {
+        if (linkRepository.existsById(linkID))
+            linkRepository.deleteById(linkID);
+        List<Click> clicks = clickRepository.findByLinkID(linkID);
         if (clicks != null)
             clickRepository.deleteAll(clicks);
     }

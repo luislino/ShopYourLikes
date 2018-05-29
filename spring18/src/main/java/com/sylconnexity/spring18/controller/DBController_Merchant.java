@@ -27,8 +27,7 @@ public class DBController_Merchant {
      * @return A list of merchants, with the given name if provided
      */
     @GetMapping(path="")
-    public @ResponseBody
-    Iterable<Merchant> getMerchants(@RequestParam(value="merchantName", defaultValue="") String merchantName) {
+    public @ResponseBody Iterable<Merchant> getMerchants(@RequestParam(value="merchantName", defaultValue="") String merchantName) {
         if (!merchantName.equals(""))
             return merchantRepository.findByMerchantName(merchantName);
         return merchantRepository.findAll();
@@ -36,12 +35,12 @@ public class DBController_Merchant {
 
     /**
      * Get the Merchant with the given ID if it exists.
-     * @param id The ID of a merchant
+     * @param merchantID The ID of a merchant
      * @return The Merchant with the given ID, or null if it does not exist
      */
     @GetMapping(path="/{id}")
-    public @ResponseBody Merchant getMerchantByID(@PathVariable(value="id") Long id) {
-        Optional<Merchant> res = merchantRepository.findById(id);
+    public @ResponseBody Merchant getMerchantByID(@PathVariable(value="id") Long merchantID) {
+        Optional<Merchant> res = merchantRepository.findById(merchantID);
         if (!res.isPresent())
             return null;
         return res.get();
@@ -60,30 +59,30 @@ public class DBController_Merchant {
 
     /**
      * Updates a merchant of the given ID with the given merchant name if it exists.
-     * @param id The ID of a merchant
+     * @param merchantID The ID of a merchant
      * @param merchantName The new name of a merchant
      * @return The updated merchant, or null if the original did not exist
      */
     @PostMapping(path="/{id}")
-    public @ResponseBody Merchant saveMerchantByID(@PathVariable(value="id") Long id,
+    public @ResponseBody Merchant saveMerchantByID(@PathVariable(value="id") Long merchantID,
                                                    @RequestParam(value="merchantName") String merchantName) {
-        if (!merchantRepository.existsById(id)) {
+        if (!merchantRepository.existsById(merchantID)) {
             return null;
         }
-        Merchant old = merchantRepository.findById(id).get();
+        Merchant old = merchantRepository.findById(merchantID).get();
         old.setMerchantName(merchantName);
         return merchantRepository.save(old);
     }
 
     /**
      * Deletes a merchant and all of its associated clicks and links.
-     * @param id The ID of an associated merchant
+     * @param merchantID The ID of an associated merchant
      */
     @DeleteMapping(path="/{id}")
-    public @ResponseBody void deleteMerchant(@PathVariable(value="id") Long id) {
-        if (merchantRepository.existsById(id))
-            merchantRepository.deleteById(id);
-        List<Link> links = linkRepository.findByMerchantID(id);
+    public @ResponseBody void deleteMerchant(@PathVariable(value="id") Long merchantID) {
+        if (merchantRepository.existsById(merchantID))
+            merchantRepository.deleteById(merchantID);
+        List<Link> links = linkRepository.findByMerchantID(merchantID);
         if (links == null)
             return;
 
