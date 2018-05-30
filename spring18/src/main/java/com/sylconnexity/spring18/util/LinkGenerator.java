@@ -11,6 +11,7 @@ public class LinkGenerator extends RandomGenerator {
 
     /**
      * Constructs a LinkGenerator with a given repository.
+     *
      * @param linkRepo A link repository
      */
     public LinkGenerator(LinkRepository linkRepo) {
@@ -20,15 +21,17 @@ public class LinkGenerator extends RandomGenerator {
     /**
      * Randomly generates a link with a given publisher and merchant ID. This link will have
      * a title of 10 characters, an original URL of 10 characters, and a hash of 40 characters.
+     *
      * @param publisherID The ID of the associated publisher
-     * @param merchantID The ID of the associated merchant
+     * @param merchantID  The ID of the associated merchant
      */
     public void generateLink(Long publisherID, Long merchantID) {
         Double earnings = generateRandomDouble();
         String customTitle = generateRandomString(10);
         String originalURL = generateRandomURL(10);
         String imageRedirectPermahashLink = generateRandomString(40);
+        String group = generateRandomString(10);
         linkRepo.save(new Link(publisherID, merchantID, earnings, customTitle,
-                originalURL, imageRedirectPermahashLink));
+                originalURL, imageRedirectPermahashLink, group));
     }
 }

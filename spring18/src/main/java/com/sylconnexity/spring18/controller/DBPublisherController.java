@@ -16,7 +16,7 @@ import java.util.Optional;
  * Controller for the Publisher class, the API of which is available at /publishers.
  */
 @Controller
-@RequestMapping(path="/publishers")
+@RequestMapping(path = "/publishers")
 public class DBPublisherController {
     @Autowired
     private PublisherRepository publisherRepository;
@@ -27,12 +27,14 @@ public class DBPublisherController {
 
     /**
      * Gets Publishers, filtering them by the given username if it is provided.
+     *
      * @param username A username of Publishers
      * @return A list of publishers, filtered by the provided username if given
      */
     @Cacheable("Publishers")
-    @GetMapping(path="")
-    public @ResponseBody Iterable<Publisher> getPublishers(@RequestParam(value="username", defaultValue="") String username) {
+    @GetMapping(path = "")
+    public @ResponseBody
+    Iterable<Publisher> getPublishers(@RequestParam(value = "username", defaultValue = "") String username) {
         if (!username.equals(""))
             return publisherRepository.findByUsername(username);
         return publisherRepository.findAll();
@@ -40,12 +42,14 @@ public class DBPublisherController {
 
     /**
      * Returns the Publisher with the given ID if it exists.
+     *
      * @param publisherID The ID of a publisher
      * @return The Publisher with the given ID, or null if it does not exist
      */
     @Cacheable("Publisher")
-    @GetMapping(path="/{id}")
-    public @ResponseBody Publisher getPublisherByID(@PathVariable(value="id") Long publisherID) {
+    @GetMapping(path = "/{id}")
+    public @ResponseBody
+    Publisher getPublisherByID(@PathVariable(value = "id") Long publisherID) {
         Optional<Publisher> res = publisherRepository.findById(publisherID);
         if (!res.isPresent())
             return null;
@@ -54,31 +58,35 @@ public class DBPublisherController {
 
     /**
      * Creates a new Publisher with the provided information.
+     *
      * @param username Username associated with the influencer
-     * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
+     * @param apiKey   Internal key utilized by ShopYourLikes API to authenticate access
      * @return The newly created Publisher
      */
-    @CacheEvict(cacheNames={"Publisher", "Publishers"}, allEntries=true)
-    @PostMapping(path="")
-    public @ResponseBody Publisher savePublisher(@RequestParam(value="username") String username,
-                                                 @RequestParam(value="apiKey") String apiKey) {
+    @CacheEvict(cacheNames = {"Publisher", "Publishers"}, allEntries = true)
+    @PostMapping(path = "")
+    public @ResponseBody
+    Publisher savePublisher(@RequestParam(value = "username") String username,
+                            @RequestParam(value = "apiKey") String apiKey) {
         Publisher created = new Publisher(username, apiKey);
         return publisherRepository.save(created);
     }
 
     /**
      * Updates the username and API Key of the Publisher with the given ID if provided.
+     *
      * @param publisherID The ID of a Publisher
-     * @param username Username associated with the influencer
-     * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
+     * @param username    Username associated with the influencer
+     * @param apiKey      Internal key utilized by ShopYourLikes API to authenticate access
      * @return The updated Publisher, or null if the original did not exist
      */
-    @CachePut(cacheNames="Publisher", key="#publisherID")
-    @CacheEvict(cacheNames="Publishers", allEntries=true)
-    @PostMapping(path="/{id}")
-    public @ResponseBody Publisher savePublisherByID(@PathVariable(value="id") Long publisherID,
-                                                     @RequestParam(value="username", defaultValue="") String username,
-                                                     @RequestParam(value="apiKey", defaultValue="") String apiKey) {
+    @CachePut(cacheNames = "Publisher", key = "#publisherID")
+    @CacheEvict(cacheNames = "Publishers", allEntries = true)
+    @PostMapping(path = "/{id}")
+    public @ResponseBody
+    Publisher savePublisherByID(@PathVariable(value = "id") Long publisherID,
+                                @RequestParam(value = "username", defaultValue = "") String username,
+                                @RequestParam(value = "apiKey", defaultValue = "") String apiKey) {
         if (!publisherRepository.existsById(publisherID)) {
             return null;
         }
@@ -92,11 +100,13 @@ public class DBPublisherController {
 
     /**
      * Deletes a Publisher with the given ID and all of its associated links and clicks.
+     *
      * @param publisherID The ID of a publisher
      */
-    @CacheEvict(cacheNames={"Click", "Clicks", "Link", "Links", "Publisher", "Publishers"}, allEntries=true)
-    @DeleteMapping(path="/{id}")
-    public @ResponseBody void deletePublisher(@PathVariable(value="id") Long publisherID) {
+    @CacheEvict(cacheNames = {"Click", "Clicks", "Link", "Links", "Publisher", "Publishers"}, allEntries = true)
+    @DeleteMapping(path = "/{id}")
+    public @ResponseBody
+    void deletePublisher(@PathVariable(value = "id") Long publisherID) {
         if (publisherRepository.existsById(publisherID))
             publisherRepository.deleteById(publisherID);
         List<Link> links = linkRepository.findByPublisherID(publisherID);

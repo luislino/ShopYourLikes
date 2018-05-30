@@ -10,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface PublisherRepository extends CrudRepository<Publisher, Long> {
     /**
      * Find Publishers with the given username.
+     *
      * @param username The username of a publisher
      * @return A list of publishers with the given username
      */

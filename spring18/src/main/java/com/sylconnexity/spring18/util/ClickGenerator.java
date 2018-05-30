@@ -11,6 +11,7 @@ public class ClickGenerator extends RandomGenerator {
 
     /**
      * Constructs a ClickGenerator with a given repository.
+     *
      * @param clickRepo A click repository
      */
     public ClickGenerator(ClickRepository clickRepo) {
@@ -23,6 +24,7 @@ public class ClickGenerator extends RandomGenerator {
      * Otherwise, these values are set to 0 or null, depending on their types.
      * <br><br>
      * This Click also has a randomly generated DMA of 30 characters, a random date, and a random IP.
+     *
      * @param linkID The ID of the associated link.
      */
     public void generateClick(Long linkID) {
@@ -34,11 +36,10 @@ public class ClickGenerator extends RandomGenerator {
             orderAmount = generateRandomDouble();
             orderNumber = generateRandomString(6);
             unitsOrdered = generateRandomLong();
-        }
-        else {
+        } else {
             orderAmount = 0.0;
-           orderNumber = null;
-           unitsOrdered = (long) 0;
+            orderNumber = null;
+            unitsOrdered = (long) 0;
         }
 
         String randomDate = generateRandomDate();

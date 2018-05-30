@@ -19,6 +19,7 @@ public class RandomGenerator {
 
     /**
      * Generates a random long.
+     *
      * @return A random long
      */
     public Long generateRandomLong() {
@@ -27,6 +28,7 @@ public class RandomGenerator {
 
     /**
      * Generates a random double.
+     *
      * @return A random double
      */
     public Double generateRandomDouble() {
@@ -35,6 +37,7 @@ public class RandomGenerator {
 
     /**
      * Generates a random boolean.
+     *
      * @return A random boolean
      */
     public Boolean generateRandomBoolean() {
@@ -47,6 +50,7 @@ public class RandomGenerator {
 
     /**
      * Generates a random string of alphanumeric characters.
+     *
      * @param size The size of the generated string
      * @return An alphanumeric string of the given size
      */
@@ -62,6 +66,7 @@ public class RandomGenerator {
     /**
      * Generates a random URL prefixed by "https://www." and postfixed by ".com/".
      * In between the prefix and postfix are alphanumeric characters.
+     *
      * @param size The size of the alphanumeric characters between the prefix and postfix
      * @return A randomly generated URL with a central portion of the given size
      */
@@ -80,6 +85,7 @@ public class RandomGenerator {
 
     /**
      * Generates a random date in the format MM/DD/YYYY with the years bounded by 3000 (exclusively).
+     *
      * @return A random date in the format MM/DD/YYYY
      */
     public String generateRandomDate() {
@@ -98,6 +104,7 @@ public class RandomGenerator {
 
     /**
      * Generates a random IPv4 address ranging from 0.0.0.0 to 255.255.255.255
+     *
      * @return A random IPv4 address
      */
     public String generateRandomIP() {

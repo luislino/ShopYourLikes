@@ -20,7 +20,7 @@ import javax.persistence.Id;
 @Entity // This tells Hibernate to make a table out of this class
 public class Click {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clickID;       //Identifier for a given click
 
     private Long linkID;        //Identifier for the associated link of the click
@@ -35,18 +35,20 @@ public class Click {
     private String ipAddress;    //The IP address of the user who clicked on a link
     private String dma;          //The designated market area (http://www.thevab.com/wp-content/uploads/2016/06/2015-2016-TV-DMA-map.pdf)
 
-    protected Click() {}
+    protected Click() {
+    }
 
     /**
      * Constructs a Click with an automatically generated, unique clickID.
-     * @param linkID Identifier for the associated link of the click
-     * @param orderAmount If the click converted to a sale this field will hold the total order amount in dollars
-     * @param orderNumber If the click converted to a sale this field will hold the total number of items purchased with that order
-     * @param unitsOrdered If the click converted to a sale this field will hold the total number of items purchased with that order
+     *
+     * @param linkID          Identifier for the associated link of the click
+     * @param orderAmount     If the click converted to a sale this field will hold the total order amount in dollars
+     * @param orderNumber     If the click converted to a sale this field will hold the total number of items purchased with that order
+     * @param unitsOrdered    If the click converted to a sale this field will hold the total number of items purchased with that order
      * @param convertedToSale True if click converted to a sale and False otherwise
-     * @param redirectDate The date at which a click happened
-     * @param ipAddress The IP address of the user who clicked on a link
-     * @param dma The designated market area
+     * @param redirectDate    The date at which a click happened
+     * @param ipAddress       The IP address of the user who clicked on a link
+     * @param dma             The designated market area
      */
     public Click(Long linkID, Double orderAmount, String orderNumber, Long unitsOrdered,
                  Boolean convertedToSale, String redirectDate, String ipAddress, String dma) {

@@ -13,15 +13,17 @@ import javax.persistence.Id;
 @Entity // This tells Hibernate to make a table out of this class
 public class Merchant {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long merchantID;     //The merchant identifier for where the SYL Link landed
 
     private String merchantName; //The merchant name associated with where the SYL Link landed
 
-    protected Merchant() {}
+    protected Merchant() {
+    }
 
     /**
      * Constructs a Merchant with an automatically generated, unique merchantID.
+     *
      * @param merchantName The merchant name associated with where the SYL Link landed
      */
     public Merchant(String merchantName) {
