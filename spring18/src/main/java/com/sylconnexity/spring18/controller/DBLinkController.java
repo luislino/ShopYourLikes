@@ -31,20 +31,16 @@ public class DBLinkController {
      *
      * @param publisherID The ID of an associated publisher
      * @param merchantID  The ID of an associated merchant
+     * @param groupName   The name of the group that the link belongs to
      * @return A list of links, filtered by the given IDs if provided
      */
     @Cacheable("Links")
     @GetMapping(path = "")
     public @ResponseBody
     Iterable<Link> getLinks(@RequestParam(value = "publisherID", defaultValue = "-1") Long publisherID,
-                            @RequestParam(value = "merchantID", defaultValue = "-1") Long merchantID) {
-        if (publisherID >= 0 && merchantID >= 0)
-            return linkRepository.findByPublisherIDAndMerchantID(publisherID, merchantID);
-        else if (publisherID >= 0)
-            return linkRepository.findByPublisherID(publisherID);
-        else if (merchantID >= 0)
-            return linkRepository.findByMerchantID(merchantID);
-        return linkRepository.findAll();
+                            @RequestParam(value = "merchantID", defaultValue = "-1") Long merchantID,
+                            @RequestParam(value = "groupName", defaultValue = "") String groupName) {
+        return linkRepository.findByIDsAndGroup(publisherID, merchantID, groupName);
     }
 
     /**
@@ -72,6 +68,7 @@ public class DBLinkController {
      * @param customTitle                The title associated with the SYL Link that the user provided
      * @param originalURL                The original URL associated with the SYL Link that the user provided
      * @param imageRedirectPermahashLink The unique hash code associated with a SYL Link
+     * @param groupName                  The name of the group that the link belongs to
      * @return The newly created Link
      */
     @CacheEvict(cacheNames = {"Link", "Links"}, allEntries = true)
@@ -83,11 +80,11 @@ public class DBLinkController {
                   @RequestParam(value = "customTitle", defaultValue = "New Link") String customTitle,
                   @RequestParam(value = "originalURL") String originalURL,
                   @RequestParam(value = "imageRedirectPermahashLink") String imageRedirectPermahashLink,
-                  @RequestParam(value = "group") String group) {
+                  @RequestParam(value = "groupName") String groupName) {
         if (!publisherRepository.existsById(publisherID) || !merchantRepository.existsById(merchantID)) {
             return null;
         }
-        Link created = new Link(publisherID, merchantID, earnings, customTitle, originalURL, imageRedirectPermahashLink, group);
+        Link created = new Link(publisherID, merchantID, earnings, customTitle, originalURL, imageRedirectPermahashLink, groupName);
         return linkRepository.save(created);
     }
 
@@ -97,6 +94,7 @@ public class DBLinkController {
      * @param linkID      The ID of a Link
      * @param earnings    The new earnings of the link
      * @param customTitle The new title of the link
+     * @param groupName   The name of the group that the link belongs to
      * @return The updated Link, or null if the original ID did not exist
      */
     @CachePut(cacheNames = "Link", key = "#linkID")
@@ -106,7 +104,7 @@ public class DBLinkController {
     Link saveLinkByID(@PathVariable(value = "id") Long linkID,
                       @RequestParam(value = "earnings", defaultValue = "-1.0") Double earnings,
                       @RequestParam(value = "customTitle", defaultValue = "") String customTitle,
-                      @RequestParam(value = "group", defaultValue = "") String group) {
+                      @RequestParam(value = "groupName", defaultValue = "") String groupName) {
         if (!linkRepository.existsById(linkID)) {
             return null;
         }
@@ -115,8 +113,8 @@ public class DBLinkController {
             old.setEarnings(earnings);
         if (!customTitle.equals(""))
             old.setCustomTitle(customTitle);
-        if (!group.equals(""))
-            old.setGroup(group);
+        if (!groupName.equals(""))
+            old.setGroupName(groupName);
         return linkRepository.save(old);
     }
 

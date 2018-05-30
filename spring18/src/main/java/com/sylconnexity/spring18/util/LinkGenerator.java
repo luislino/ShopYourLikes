@@ -20,7 +20,8 @@ public class LinkGenerator extends RandomGenerator {
 
     /**
      * Randomly generates a link with a given publisher and merchant ID. This link will have
-     * a title of 10 characters, an original URL of 10 characters, and a hash of 40 characters.
+     * a title of 10 characters, an original URL of 10 characters, a hash of 40 characters,
+     * and a group of 10 characters.
      *
      * @param publisherID The ID of the associated publisher
      * @param merchantID  The ID of the associated merchant
@@ -30,8 +31,8 @@ public class LinkGenerator extends RandomGenerator {
         String customTitle = generateRandomString(10);
         String originalURL = generateRandomURL(10);
         String imageRedirectPermahashLink = generateRandomString(40);
-        String group = generateRandomString(10);
+        String groupName = generateRandomString(10);
         linkRepo.save(new Link(publisherID, merchantID, earnings, customTitle,
-                originalURL, imageRedirectPermahashLink, group));
+                originalURL, imageRedirectPermahashLink, groupName));
     }
 }

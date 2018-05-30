@@ -28,7 +28,7 @@ public class Link {
     private String originalURL;                 //The original URL associated with the SYL Link that the user provided
     private String imageRedirectPermahashLink;  //The unique hash code associated with a SYL Link
 
-    private String group;                       //The name of the group that the link belongs to
+    private String groupName;                       //The name of the group that the link belongs to
 
     protected Link() {
     }
@@ -42,17 +42,17 @@ public class Link {
      * @param customTitle                The title associated with the SYL Link that the user provided
      * @param originalURL                The original URL associated with the SYL Link that the user provided
      * @param imageRedirectPermahashLink The unique hash code associated with a SYL Link
-     * @param group                      The name of the group that the link belongs to
+     * @param groupName                      The name of the group that the link belongs to
      */
     public Link(Long publisherID, Long merchantID, Double earnings, String customTitle, String originalURL,
-                String imageRedirectPermahashLink, String group) {
+                String imageRedirectPermahashLink, String groupName) {
         this.publisherID = publisherID;
         this.merchantID = merchantID;
         this.earnings = earnings;
         this.customTitle = customTitle;
         this.originalURL = originalURL;
         this.imageRedirectPermahashLink = imageRedirectPermahashLink;
-        this.group = group;
+        this.groupName = groupName;
     }
 
     public Long getLinkID() {
@@ -111,11 +111,11 @@ public class Link {
         this.imageRedirectPermahashLink = imageRedirectPermahashLink;
     }
 
-    public String getGroup() {
-        return group;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

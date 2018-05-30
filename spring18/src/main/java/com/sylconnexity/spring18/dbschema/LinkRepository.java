@@ -2,12 +2,22 @@ package com.sylconnexity.spring18.dbschema;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * A repository for creating Link queries.
  */
 public interface LinkRepository extends CrudRepository<Link, Long> {
+
+    @Query("SELECT link FROM Link link WHERE " +
+            "(:publisherID = -1L OR link.publisherID = :publisherID)" +
+            "AND (:merchantID = -1L OR link.merchantID = :merchantID) " +
+            "AND (:groupName = '' OR link.groupName = :groupName)")
+    List<Link> findByIDsAndGroup(@Param("publisherID") Long publisherID,
+                                 @Param("merchantID") Long merchantID,
+                                 @Param("groupName") String groupName);
 
     /**
      * Find links with the given publisher ID.
@@ -33,13 +43,4 @@ public interface LinkRepository extends CrudRepository<Link, Long> {
      * @return A list of Links with the given associated IDs
      */
     List<Link> findByPublisherIDAndMerchantID(Long publisherID, Long merchantID);
-
-    /**
-     * Find links with the given publisher ID and the given group name.
-     *
-     * @param publisherID The ID of a publisher
-     * @param group       The name of a group
-     * @return A list of Links with the given associated data
-     */
-    List<Link> findByPublisherIDAndGroup(Long publisherID, String group);
 }

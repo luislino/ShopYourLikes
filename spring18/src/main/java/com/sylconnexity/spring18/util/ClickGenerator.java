@@ -39,7 +39,7 @@ public class ClickGenerator extends RandomGenerator {
         } else {
             orderAmount = 0.0;
             orderNumber = null;
-            unitsOrdered = (long) 0;
+            unitsOrdered = 0L;
         }
 
         String randomDate = generateRandomDate();
