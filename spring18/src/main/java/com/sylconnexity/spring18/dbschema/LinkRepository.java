@@ -11,6 +11,15 @@ import org.springframework.data.repository.query.Param;
  */
 public interface LinkRepository extends CrudRepository<Link, Long> {
 
+    /**
+     * Find links with the given, publisher ID, merchant ID, or group name. If the IDs are
+     * -1 or the group name is the empty string, they are ignored.
+     *
+     * @param publisherID The ID of a publisher
+     * @param merchantID The ID of a merchant
+     * @param groupName The name of a link's group
+     * @return A list of Links matching the given criteria.
+     */
     @Query("SELECT link FROM Link link WHERE " +
             "(:publisherID = -1L OR link.publisherID = :publisherID)" +
             "AND (:merchantID = -1L OR link.merchantID = :merchantID) " +
