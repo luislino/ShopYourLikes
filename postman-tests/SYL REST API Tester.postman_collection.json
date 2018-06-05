@@ -1,0 +1,2592 @@
+{
+	"info": {
+		"_postman_id": "17b7aa1e-c6ce-409d-bbaa-c6d7e79fe210",
+		"name": "SYL REST API Tester",
+		"description": "Tests the REST API of SYL Link Journal.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Publisher Tests",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Publishers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5727d436-46e1-4271-8b1c-130973e471f6",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "9c8ed9d3-ae83-4d5a-965d-6d1210dab33b",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.environment.set(\"num_publishers\", pm.response.json().length);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers"
+							]
+						},
+						"description": "/publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publishers Cached",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5727d436-46e1-4271-8b1c-130973e471f6",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae800672-9c96-4c36-8af3-293a75551e77",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers"
+							]
+						},
+						"description": "/publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Publisher",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6a4ebeda-f42d-4b85-82b1-a86063ad80d9",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has username\", function () {",
+									"    pm.expect(pm.response.json().username).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has apiKey\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response username is as provided\", function () {",
+									"    pm.expect(pm.response.json().username).to.eql(\"testName\");",
+									"});",
+									"",
+									"pm.test(\"Response apiKey is as provided\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.eql(\"testKey\");",
+									"});",
+									"",
+									"pm.environment.set(\"created_publisher_num\", pm.response.json().publisherID);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "testName",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "apiKey",
+									"value": "testKey",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/publishers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers"
+							]
+						},
+						"description": "/publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Publisher Without Arguments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4b92231-29e0-4cd4-94cb-6aba4484c871",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers"
+							]
+						},
+						"description": "/publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Publisher Without apiKey",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1558f532-c744-4ced-b6a2-9c2955204771",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "testName",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/publishers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers"
+							]
+						},
+						"description": "/publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Publisher Without username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ca4e137-ef7f-48c2-865c-a95cc5042694",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "apiKey",
+									"value": "testKey",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/publishers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers"
+							]
+						},
+						"description": "/publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publishers Number",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5727d436-46e1-4271-8b1c-130973e471f6",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "80909b61-5ef0-4c6d-8c7b-aa4bba1e60f3",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Publisher numbers increased by 1\", function () {",
+									"    pm.expect(pm.response.json().length).to.eql(pm.environment.get(\"num_publishers\") + 1);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers"
+							]
+						},
+						"description": "/publishers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publisher with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a50a1c10-f891-4854-91de-b60718d3dcaa",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has username\", function () {",
+									"    pm.expect(pm.response.json().username).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has apiKey\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response publisherID is as provided\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.eql(pm.environment.get(\"created_publisher_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response username is as constructed\", function () {",
+									"    pm.expect(pm.response.json().username).to.eql(\"testName\");",
+									"});",
+									"",
+									"pm.test(\"Response apiKey is as constructed\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.eql(\"testKey\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers/{{created_publisher_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers",
+								"{{created_publisher_num}}"
+							]
+						},
+						"description": "/publishers/{{created_publisher_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publisher with Bad ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc1d66da-1127-484d-b977-b70e2ebb5b30",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers/-1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers",
+								"-1"
+							]
+						},
+						"description": "/publishers/-1"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Publisher with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e934f498-0c28-4960-a824-823fb58b83cb",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has username\", function () {",
+									"    pm.expect(pm.response.json().username).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has apiKey\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response publisherID is as provided\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.eql(pm.environment.get(\"created_publisher_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response username is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().username).to.eql(\"testName\");",
+									"});",
+									"",
+									"pm.test(\"Response apiKey is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.eql(\"testKey\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers/{{created_publisher_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers",
+								"{{created_publisher_num}}"
+							]
+						},
+						"description": "/publishers/{{created_publisher_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Publisher with Given ID and Parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a72f778-4800-4c46-9017-1eff7e530de1",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has username\", function () {",
+									"    pm.expect(pm.response.json().username).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has apiKey\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response publisherID is as provided\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.eql(pm.environment.get(\"created_publisher_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response username is as provided\", function () {",
+									"    pm.expect(pm.response.json().username).to.eql(\"newName\");",
+									"});",
+									"",
+									"pm.test(\"Response apiKey is as provided\", function () {",
+									"    pm.expect(pm.response.json().apiKey).to.eql(\"newKey\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "newName",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "apiKey",
+									"value": "newKey",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/publishers/{{created_publisher_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers",
+								"{{created_publisher_num}}"
+							]
+						},
+						"description": "/publishers/{{created_publisher_num}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Merchant Tests",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Merchants",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6194c8b5-586d-4249-a95a-8a8113eeae0d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.environment.set(\"num_merchants\", pm.response.json().length);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants"
+							]
+						},
+						"description": "/merchants"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Merchants Cached",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "160e8f9c-d644-426f-b6e6-f50a7c5dfd18",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants"
+							]
+						},
+						"description": "/merchants"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Merchant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b354e5ba-0573-4a44-a0c2-9eba8eb5bfbc",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantID\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantName\", function () {",
+									"    pm.expect(pm.response.json().merchantName).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response merchantName is as provided\", function () {",
+									"    pm.expect(pm.response.json().merchantName).to.eql(\"testName\");",
+									"});",
+									"",
+									"pm.environment.set(\"created_merchant_num\", pm.response.json().merchantID);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "merchantName",
+									"value": "testName",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/merchants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants"
+							]
+						},
+						"description": "/merchants"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Merchant Without Arguments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6fe5de50-5d36-4b84-bdc5-72a30a591d6c",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants"
+							]
+						},
+						"description": "/merchants"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Merchants Number",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5727d436-46e1-4271-8b1c-130973e471f6",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1bdb33c4-2c8f-4741-af4e-98321731463e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Merchant numbers increased by 1\", function () {",
+									"    pm.expect(pm.response.json().length).to.eql(pm.environment.get(\"num_merchants\") + 1);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants"
+							]
+						},
+						"description": "/merchants"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Merchant with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5e5c12b4-b7f5-4eda-aedc-3c028920238d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantID\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantName\", function () {",
+									"    pm.expect(pm.response.json().merchantName).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response merchantName is as constructed\", function () {",
+									"    pm.expect(pm.response.json().merchantName).to.eql(\"testName\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants/{{created_merchant_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants",
+								"{{created_merchant_num}}"
+							]
+						},
+						"description": "merchants/{{created_merchant_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Merchant with Bad ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "921a29fc-d60c-4ee9-9be5-7168176a3d83",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants/-1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants",
+								"-1"
+							]
+						},
+						"description": "/publishers/-1"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Merchant with Given ID and Parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d215d2dd-2f9e-4039-ba83-ce253cfe4cad",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantID\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantName\", function () {",
+									"    pm.expect(pm.response.json().merchantName).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response merchantID is as provided\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.eql(pm.environment.get(\"created_merchant_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response merchantName is as provided\", function () {",
+									"    pm.expect(pm.response.json().merchantName).to.eql(\"newName\");",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "merchantName",
+									"value": "newName",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/merchants/{{created_merchant_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants",
+								"{{created_merchant_num}}"
+							]
+						},
+						"description": "/merchants/{{created_merchant_num}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Link Tests",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Links",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b416282e-c63f-4b1b-93a0-15c285a918f9",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.environment.set(\"num_links\", pm.response.json().length);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links"
+							]
+						},
+						"description": "/links"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Links Cached",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0405e2e3-3974-46fa-8805-0d078191e245",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links"
+							]
+						},
+						"description": "/links"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Link",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bd98c444-dac8-4bf8-8bcd-44554f8c4a3e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has linkID\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantID\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has earnings\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has customTitle\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has originalURL\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has imageRedirectPermahashLink\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has groupName\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response publisherID is as provided\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.eql(pm.environment.get(\"created_publisher_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response merchantID is as provided\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.eql(pm.environment.get(\"created_merchant_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response earnings is as provided\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.eql(13.37);",
+									"});",
+									"",
+									"pm.test(\"Response customTitle is as provided\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.eql(\"testTitle\");",
+									"});",
+									"",
+									"pm.test(\"Response originalURL is as provided\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.eql(\"testURL\");",
+									"});",
+									"",
+									"pm.test(\"Response imageRedirectPermahashLink is as provided\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.eql(\"testHash\");",
+									"});",
+									"",
+									"pm.test(\"Response groupName is as provided\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.eql(\"testGroup\");",
+									"});",
+									"",
+									"pm.environment.set(\"created_link_num\", pm.response.json().linkID);",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "publisherID",
+									"value": "{{created_publisher_num}}",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "merchantID",
+									"value": "{{created_merchant_num}}",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "earnings",
+									"value": "13.37",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "customTitle",
+									"value": "testTitle",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "originalURL",
+									"value": "testURL",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "imageRedirectPermahashLink",
+									"value": "testHash",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "groupName",
+									"value": "testGroup",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/links",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links"
+							]
+						},
+						"description": "/links"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Link Without Arguments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "69d9d9a5-13e9-4cd2-b462-cc1f971453e3",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links"
+							]
+						},
+						"description": "/links"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Links Number",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5727d436-46e1-4271-8b1c-130973e471f6",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "888655db-ebfb-4f19-a59d-638be8995d5f",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Link numbers increased by 1\", function () {",
+									"    pm.expect(pm.response.json().length).to.eql(pm.environment.get(\"num_links\") + 1);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links"
+							]
+						},
+						"description": "/links"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Link with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90baffed-2915-4181-a896-bfac8d9572fe",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has linkID\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantID\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has earnings\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has customTitle\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has originalURL\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has imageRedirectPermahashLink\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has groupName\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response linkID is as provided\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.eql(pm.environment.get(\"created_link_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response publisherID is as constructed\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.eql(pm.environment.get(\"created_publisher_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response merchantID is as constructed\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.eql(pm.environment.get(\"created_merchant_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response earnings is as constructed\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.eql(13.37);",
+									"});",
+									"",
+									"pm.test(\"Response customTitle is as constructed\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.eql(\"testTitle\");",
+									"});",
+									"",
+									"pm.test(\"Response originalURL is as constructed\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.eql(\"testURL\");",
+									"});",
+									"",
+									"pm.test(\"Response imageRedirectPermahashLink is as constructed\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.eql(\"testHash\");",
+									"});",
+									"",
+									"pm.test(\"Response groupName is as constructed\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.eql(\"testGroup\");",
+									"});",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links/{{created_link_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links",
+								"{{created_link_num}}"
+							]
+						},
+						"description": "/links/{{created_link_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Link with Bad ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cd2de396-bb3b-4ccb-b31f-7b208711133b",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links/-1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links",
+								"-1"
+							]
+						},
+						"description": "/links/-1"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Link with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c6b52d1e-5537-48af-a167-62ef3e9fe79e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has linkID\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantID\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has earnings\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has customTitle\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has originalURL\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has imageRedirectPermahashLink\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has groupName\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response linkID is as provided\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.eql(pm.environment.get(\"created_link_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response publisherID is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.eql(pm.environment.get(\"created_publisher_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response merchantID is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.eql(pm.environment.get(\"created_merchant_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response earnings is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.eql(13.37);",
+									"});",
+									"",
+									"pm.test(\"Response customTitle is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.eql(\"testTitle\");",
+									"});",
+									"",
+									"pm.test(\"Response originalURL is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.eql(\"testURL\");",
+									"});",
+									"",
+									"pm.test(\"Response imageRedirectPermahashLink is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.eql(\"testHash\");",
+									"});",
+									"",
+									"pm.test(\"Response groupName is unchanged by default\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.eql(\"testGroup\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links/{{created_link_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links",
+								"{{created_link_num}}"
+							]
+						},
+						"description": "/links/{{created_link_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Link with Given ID and Parameters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a26d61b9-e367-43c0-aaa5-e468d550d505",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has linkID\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has publisherID\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has merchantID\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has earnings\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has customTitle\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has originalURL\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has imageRedirectPermahashLink\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has groupName\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response linkID is as provided\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.eql(pm.environment.get(\"created_link_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response publisherID is unchanged\", function () {",
+									"    pm.expect(pm.response.json().publisherID).to.eql(pm.environment.get(\"created_publisher_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response merchantID is unchanged\", function () {",
+									"    pm.expect(pm.response.json().merchantID).to.eql(pm.environment.get(\"created_merchant_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response earnings is as provided\", function () {",
+									"    pm.expect(pm.response.json().earnings).to.eql(10.01);",
+									"});",
+									"",
+									"pm.test(\"Response customTitle is as provided\", function () {",
+									"    pm.expect(pm.response.json().customTitle).to.eql(\"newTitle\");",
+									"});",
+									"",
+									"pm.test(\"Response originalURL is unchanged\", function () {",
+									"    pm.expect(pm.response.json().originalURL).to.eql(\"testURL\");",
+									"});",
+									"",
+									"pm.test(\"Response imageRedirectPermahashLink is unchanged\", function () {",
+									"    pm.expect(pm.response.json().imageRedirectPermahashLink).to.eql(\"testHash\");",
+									"});",
+									"",
+									"pm.test(\"Response groupName is as provided\", function () {",
+									"    pm.expect(pm.response.json().groupName).to.eql(\"newGroup\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "earnings",
+									"value": "10.01",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "customTitle",
+									"value": "newTitle",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "groupName",
+									"value": "newGroup",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/links/{{created_link_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links",
+								"{{created_link_num}}"
+							]
+						},
+						"description": "/links/{{created_link_num}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Click Tests",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Clicks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5fdf7b47-0234-4220-bce4-f4150ea5f91b",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.environment.set(\"num_clicks\", pm.response.json().length);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks"
+							]
+						},
+						"description": "/clicks"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Clicks Cached",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "85239720-80a6-4640-ae1b-d429cd980c42",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks"
+							]
+						},
+						"description": "/clicks"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Click",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6f49715c-5a59-4e11-914b-25d437e3eccd",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has clickID\", function () {",
+									"    pm.expect(pm.response.json().clickID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has linkID\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has orderAmount\", function () {",
+									"    pm.expect(pm.response.json().orderAmount).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has unitsOrdered\", function () {",
+									"    pm.expect(pm.response.json().unitsOrdered).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has convertedToSale\", function () {",
+									"    pm.expect(pm.response.json().convertedToSale).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has redirectDate\", function () {",
+									"    pm.expect(pm.response.json().redirectDate).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has ipAddress\", function () {",
+									"    pm.expect(pm.response.json().ipAddress).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has dma\", function () {",
+									"    pm.expect(pm.response.json().dma).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response linkID is as provided\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.eql(pm.environment.get(\"created_link_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response orderAmount is as provided\", function () {",
+									"    pm.expect(pm.response.json().orderAmount).to.eql(13.37);",
+									"});",
+									"",
+									"pm.test(\"Response orderNumber is as provided\", function () {",
+									"    pm.expect(pm.response.json().orderNumber).to.eql(\"testOrder\");",
+									"});",
+									"",
+									"pm.test(\"Response unitsOrdered is as provided\", function () {",
+									"    pm.expect(pm.response.json().unitsOrdered).to.eql(100);",
+									"});",
+									"",
+									"pm.test(\"Response convertedToSale is as provided\", function () {",
+									"    pm.expect(pm.response.json().convertedToSale).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response redirectDate is as provided\", function () {",
+									"    pm.expect(pm.response.json().redirectDate).to.eql(\"testDate\");",
+									"});",
+									"",
+									"pm.test(\"Response ipAddress is as provided\", function () {",
+									"    pm.expect(pm.response.json().ipAddress).to.eql(\"testIP\");",
+									"});",
+									"",
+									"pm.test(\"Response dma is as provided\", function () {",
+									"    pm.expect(pm.response.json().dma).to.eql(\"testDMA\");",
+									"});",
+									"",
+									"pm.environment.set(\"created_click_num\", pm.response.json().clickID);",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "linkID",
+									"value": "{{created_link_num}}",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "orderAmount",
+									"value": "13.37",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "orderNumber",
+									"value": "testOrder",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "unitsOrdered",
+									"value": "100",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "convertedToSale",
+									"value": "true",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "redirectDate",
+									"value": "testDate",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "ipAddress",
+									"value": "testIP",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "dma",
+									"value": "testDMA",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/clicks",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks"
+							]
+						},
+						"description": "/clicks"
+					},
+					"response": []
+				},
+				{
+					"name": "Post Click Without Arguments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0225c977-6645-468e-829c-15843b202118",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks"
+							]
+						},
+						"description": "/clicks"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Clicks Number",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5727d436-46e1-4271-8b1c-130973e471f6",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "4d7b47bb-23b7-40a9-9fcc-8e2e55607390",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Click numbers increased by 1\", function () {",
+									"    pm.expect(pm.response.json().length).to.eql(pm.environment.get(\"num_clicks\") + 1);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks"
+							]
+						},
+						"description": "/clicks"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Click with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "defebc26-7a35-4034-a8ee-14a0d87090f4",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has clickID\", function () {",
+									"    pm.expect(pm.response.json().clickID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has linkID\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has orderAmount\", function () {",
+									"    pm.expect(pm.response.json().orderAmount).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has unitsOrdered\", function () {",
+									"    pm.expect(pm.response.json().unitsOrdered).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has convertedToSale\", function () {",
+									"    pm.expect(pm.response.json().convertedToSale).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has redirectDate\", function () {",
+									"    pm.expect(pm.response.json().redirectDate).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has ipAddress\", function () {",
+									"    pm.expect(pm.response.json().ipAddress).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response has dma\", function () {",
+									"    pm.expect(pm.response.json().dma).to.not.eql(undefined);",
+									"});",
+									"",
+									"pm.test(\"Response clickID is as provided\", function () {",
+									"    pm.expect(pm.response.json().clickID).to.eql(pm.environment.get(\"created_click_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response linkID is as constructed\", function () {",
+									"    pm.expect(pm.response.json().linkID).to.eql(pm.environment.get(\"created_link_num\"));",
+									"});",
+									"",
+									"pm.test(\"Response orderAmount is as constructed\", function () {",
+									"    pm.expect(pm.response.json().orderAmount).to.eql(13.37);",
+									"});",
+									"",
+									"pm.test(\"Response orderNumber is as constructed\", function () {",
+									"    pm.expect(pm.response.json().orderNumber).to.eql(\"testOrder\");",
+									"});",
+									"",
+									"pm.test(\"Response unitsOrdered is as constructed\", function () {",
+									"    pm.expect(pm.response.json().unitsOrdered).to.eql(100);",
+									"});",
+									"",
+									"pm.test(\"Response convertedToSale is as constructed\", function () {",
+									"    pm.expect(pm.response.json().convertedToSale).to.eql(true);",
+									"});",
+									"",
+									"pm.test(\"Response redirectDate is as constructed\", function () {",
+									"    pm.expect(pm.response.json().redirectDate).to.eql(\"testDate\");",
+									"});",
+									"",
+									"pm.test(\"Response ipAddress is as constructed\", function () {",
+									"    pm.expect(pm.response.json().ipAddress).to.eql(\"testIP\");",
+									"});",
+									"",
+									"pm.test(\"Response dma is as constructed\", function () {",
+									"    pm.expect(pm.response.json().dma).to.eql(\"testDMA\");",
+									"});",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks/{{created_click_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks",
+								"{{created_click_num}}"
+							]
+						},
+						"description": "/clicks/{{created_click_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Click with Bad ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4d02ce56-aea2-4bc0-aaee-2ebf8a4918ba",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks/-1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks",
+								"-1"
+							]
+						},
+						"description": "/clicks/-1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Deletion Tests",
+			"description": "",
+			"item": [
+				{
+					"name": "Delete Publisher with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c71206d-2233-4d71-bd37-7e60f08d36e6",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers/{{created_publisher_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers",
+								"{{created_publisher_num}}"
+							]
+						},
+						"description": "/publishers/{{created_publisher_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publisher with Deleted ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3716c7e-177d-43d9-83a5-943db2e820ad",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/publishers/{{created_publisher_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publishers",
+								"{{created_publisher_num}}"
+							]
+						},
+						"description": "/publishers/{{created_publisher_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Merchant with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7b49ec9f-11eb-484f-8a46-cd1c768389cd",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants/{{created_merchant_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants",
+								"{{created_merchant_num}}"
+							]
+						},
+						"description": "/publishers/{{created_publisher_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Merchant with Deleted ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2ed6948a-4ac3-4c02-9a20-1a5774862cd1",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/merchants/{{created_merchant_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"merchants",
+								"{{created_merchant_num}}"
+							]
+						},
+						"description": "/merchants/{{created_merchant_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Link with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8d88cbae-8062-47a5-8a47-a5eae0ec3a33",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links/{{created_link_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links",
+								"{{created_link_num}}"
+							]
+						},
+						"description": "/links/{{created_link_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Link with Deleted ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc1a064a-d138-407d-a792-3952c6ec1801",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/links/{{created_link_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"links",
+								"{{created_link_num}}"
+							]
+						},
+						"description": "/links/{{created_link_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Click with Given ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d49c1276-3623-4fd8-b8c1-39de2636da5c",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks/{{created_click_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks",
+								"{{created_click_num}}"
+							]
+						},
+						"description": "/links/{{created_link_num}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Click with Deleted ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cb8573a7-c0dd-4c2b-9100-12b1093c0596",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 2s\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content Length is 0\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.eql('0');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8080/clicks/{{created_click_num}}",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"clicks",
+								"{{created_click_num}}"
+							]
+						},
+						"description": "/links/{{created_link_num}}"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
