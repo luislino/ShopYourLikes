@@ -39,37 +39,11 @@ public class BaseController {
         result.addObject("userName", value);
         result.setViewName("sampleAnalyticsUI/sample");
 
-        LinkList 
+        List<Link> links = linkRepository.findByPublisherID(1L);
+        result.addObject("links", links);
+
         return result;
     }
-
-    private class LinkList implements Iterable<Link>{
-        private List<Link> Link_List = new ArrayList<Link>();
-
-        @Override
-        public Iterator<Link> iterator(){
-            return new Iterator<Link>(){
-                private final Iterator<Link> iter = Link_List.iterator();
-
-                @Override
-                public boolean hasNext() {
-                    return iter.hasNext();
-                }
-
-                @Override
-                public Link next() {
-                    return iter.next();
-                }
-
-                @Override
-                public void remove() {
-                    throw new UnsupportedOperationException("Removal failed. no changes allowed");
-                }
-
-            };
-        }
-    }
-
 
     /**
      * Get the Links with the associated publisherID or merchantID if provided.
@@ -119,11 +93,12 @@ public class BaseController {
                                            @RequestParam(value="earnings") Double earnings,
                                            @RequestParam(value="customTitle", defaultValue="New Link") String customTitle,
                                            @RequestParam(value="originalURL") String originalURL,
-                                           @RequestParam(value="imageRedirectPermahashLink") String imageRedirectPermahashLink) {
+                                           @RequestParam(value="imageRedirectPermahashLink") String imageRedirectPermahashLink,
+                                           @RequestParam(value="groupName") String groupName) {
         if (!publisherRepository.existsById(publisherID) || !merchantRepository.existsById(merchantID)) {
             return null;
         }
-        Link created = new Link(publisherID, merchantID, earnings, customTitle, originalURL, imageRedirectPermahashLink);
+        Link created = new Link(publisherID, merchantID, earnings, customTitle, originalURL, imageRedirectPermahashLink, groupName);
         return linkRepository.save(created);
     }
 

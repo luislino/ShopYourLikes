@@ -155,37 +155,29 @@
     <table id="pop" class="display" style="width:100%">
         <thead>
         <tr>
-            <th>Link Category</th>
-            <th># of Links</th>
-            <th>Total Earnings</th>
+            <th>PublisherID</th>
+            <th>Merchant ID</th>
+            <th>Earnings</th>
+            <th>Custom Title</th>
+            <th>Original URL</th>
+            <th>imageRedirectPermahashLink</th>
+            <th>groupName</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Shoes</td>
-            <td>25</td>
-            <td>$75.34</td>
-        </tr>
-        <tr>
-            <td>Furniture</td>
-            <td>10</td>
-            <td>$25.12</td>
-        </tr>
-        <tr>
-            <td>Clothes</td>
-            <td>8</td>
-            <td>$23.98</td>
-        </tr>
-        <tr>
-            <td>Food</td>
-            <td>5</td>
-            <td>$10.72</td>
-        </tr>
-        <tr>
-            <td>Cars</td>
-            <td>2</td>
-            <td>$5.32</td>
-        </tr>
+        {{#links}}
+            <tr>
+                <td>{{publisherID}}</td>
+                <td>{{merchantID}}</td>
+                <td>{{earnings}}</td>
+                <td>{{customTitle}}</td>
+                <td>{{originalURL}}</td>
+                <td>{{imageRedirectPermahashLink}}</td>
+                <td>{{groupName}}</td>
+            </tr>
+
+        {{/links}}
+
         </tbody>
 
     </table>
@@ -200,37 +192,29 @@
         <table id="example" class="display" style="width:100%">
             <thead>
             <tr>
-                <th>Link Category</th>
-                <th># of Links</th>
+                <th>PublisherID</th>
+                <th>Merchant ID</th>
                 <th>Earnings</th>
+                <th>Custom Title</th>
+                <th>Original URL</th>
+                <th>imageRedirectPermahashLink</th>
+                <th>groupName</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Shoes</td>
-                <td>25</td>
-                <td>$75.34</td>
-            </tr>
-            <tr>
-                <td>Furniture</td>
-                <td>10</td>
-                <td>$25.12</td>
-            </tr>
-            <tr>
-                <td>Clothes</td>
-                <td>8</td>
-                <td>$23.98</td>
-            </tr>
-            <tr>
-                <td>Food</td>
-                <td>5</td>
-                <td>$10.72</td>
-            </tr>
-            <tr>
-                <td>Cars</td>
-                <td>2</td>
-                <td>$5.32</td>
-            </tr>
+            {{#links}}
+                <tr>
+                    <td>{{publisherID}}</td>
+                    <td>{{merchantID}}</td>
+                    <td>{{earnings}}</td>
+                    <td>{{customTitle}}</td>
+                    <td>{{originalURL}}</td>
+                    <td>{{imageRedirectPermahashLink}}</td>
+                    <td>{{groupName}}</td>
+                </tr>
+
+            {{/links}}
+
             </tbody>
 
         </table>
