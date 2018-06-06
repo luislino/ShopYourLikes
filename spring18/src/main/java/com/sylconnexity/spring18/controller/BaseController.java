@@ -42,8 +42,48 @@ public class BaseController {
         List<Link> links = linkRepository.findByPublisherID(1L);
         result.addObject("links", links);
 
+        // Get all the Links statistics based on all clicks for each link
+        List<Link_Stat> link_stats = new ArrayList();
+        for (Link l: links){
+            List<Click> clicks= clickRepository.findByLinkID(l.getLinkID());
+            link_stats.add(new Link_Stat(clicks, l.getOriginalURL()));
+        }
+        result.addObject("link_stats", link_stats);
+
         return result;
     }
+
+    public class Link_Stat{
+        private Long TotalUnitsOrdered;
+        private int TotalConvertedToSale;
+        private String OriginalURL;
+
+//        private Map<Long, Integer> StatMap;
+
+        //combine the # convertedToSale and unitsOrdered based on the clicks of that link
+        public Link_Stat(List<Click> clicks, String orig_URL){
+            TotalUnitsOrdered = 0L;
+            TotalConvertedToSale = 0;
+            for(Click c : clicks){
+                if(c.getUnitsOrdered() > 0)
+                    TotalUnitsOrdered += c.getUnitsOrdered();
+                TotalConvertedToSale += (c.getConvertedToSale()) ? 1 : 0;
+            }
+            OriginalURL = orig_URL;
+        }
+        public Long getTotalUnitsOrdered() {
+            return TotalUnitsOrdered;
+        }
+
+        public int getTotalConvertedToSale() {
+            return TotalConvertedToSale;
+        }
+
+        public String getOriginalURL() {
+            return OriginalURL;
+        }
+    }
+
 
     /**
      * Get the Links with the associated publisherID or merchantID if provided.
