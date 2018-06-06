@@ -22,7 +22,7 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 2,
-          center: {lat: -33.865427, lng: 151.196123},
+          center: {lat: 39.0, lng: 98.0},
           mapTypeId: 'terrain'
         });
 
@@ -38,8 +38,16 @@ xhttp.onreadystatechange = function() {
       eqfeed_callback(this.responseText);
    }
 };
-xhttp.open("GET", "http://127.0.0.1:8080/clicks", true);
-xhttp.send();
+
+if({{control}}) {
+              xhttp.open("GET", "http://127.0.0.1:8080/clicks"   , true);
+              xhttp.send();
+
+          } else {
+              xhttp.open("GET", "http://127.0.0.1:8080/clicks?linkID={{linkid}}"   , true);
+              xhttp.send();
+
+          }
 
 
 
