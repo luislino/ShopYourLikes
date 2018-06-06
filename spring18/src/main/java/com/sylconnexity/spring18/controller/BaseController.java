@@ -38,10 +38,8 @@ public class BaseController {
         ModelAndView result = new ModelAndView();
         result.addObject("userName", value);
         result.setViewName("sampleAnalyticsUI/sample");
-//        long a = 0;
-//        long b = 1;
-//
-//        List<Link> llist = getLinks(a, b);
+
+        LinkList 
         return result;
     }
 
