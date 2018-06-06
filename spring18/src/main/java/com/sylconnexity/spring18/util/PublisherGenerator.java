@@ -11,6 +11,7 @@ public class PublisherGenerator extends RandomGenerator {
 
     /**
      * Constructs a PublisherGenerator with a given repository.
+     *
      * @param publisherRepo A publisher repository
      */
     public PublisherGenerator(PublisherRepository publisherRepo) {

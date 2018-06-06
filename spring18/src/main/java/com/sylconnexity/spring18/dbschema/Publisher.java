@@ -13,18 +13,20 @@ import javax.persistence.Id;
 @Entity // This tells Hibernate to make a table out of this class
 public class Publisher {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long publisherID; //Identifier for an individual influencer
 
     private String username;  //Username associated with the influencer
     private String apiKey;    //Internal key utilized by ShopYourLikes API to authenticate access
 
-    protected Publisher() {}
+    protected Publisher() {
+    }
 
     /**
      * Constructs a Publisher with an automatically generated, unique publisherID.
+     *
      * @param username Username associated with the influencer
-     * @param apiKey Internal key utilized by ShopYourLikes API to authenticate access
+     * @param apiKey   Internal key utilized by ShopYourLikes API to authenticate access
      */
     public Publisher(String username, String apiKey) {
         this.username = username;

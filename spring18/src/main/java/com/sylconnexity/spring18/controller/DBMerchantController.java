@@ -2,6 +2,9 @@ package com.sylconnexity.spring18.controller;
 
 import com.sylconnexity.spring18.dbschema.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +15,8 @@ import java.util.Optional;
  * Controller for the Merchant class, the API of which is available at /merchants.
  */
 @Controller
-@RequestMapping(path="/merchants")
-public class DBController_Merchant {
+@RequestMapping(path = "/merchants")
+public class DBMerchantController {
     @Autowired
     private MerchantRepository merchantRepository;
     @Autowired
@@ -23,12 +26,14 @@ public class DBController_Merchant {
 
     /**
      * Gets the merchants with the associated name if provided.
+     *
      * @param merchantName The name of a merchant
      * @return A list of merchants, with the given name if provided
      */
-    @GetMapping(path="")
+    @Cacheable("Merchants")
+    @GetMapping(path = "")
     public @ResponseBody
-    Iterable<Merchant> getMerchants(@RequestParam(value="merchantName", defaultValue="") String merchantName) {
+    Iterable<Merchant> getMerchants(@RequestParam(value = "merchantName", defaultValue = "") String merchantName) {
         if (!merchantName.equals(""))
             return merchantRepository.findByMerchantName(merchantName);
         return merchantRepository.findAll();
@@ -36,12 +41,15 @@ public class DBController_Merchant {
 
     /**
      * Get the Merchant with the given ID if it exists.
-     * @param id The ID of a merchant
+     *
+     * @param merchantID The ID of a merchant
      * @return The Merchant with the given ID, or null if it does not exist
      */
-    @GetMapping(path="/{id}")
-    public @ResponseBody Merchant getMerchantByID(@PathVariable(value="id") Long id) {
-        Optional<Merchant> res = merchantRepository.findById(id);
+    @Cacheable("Merchant")
+    @GetMapping(path = "/{id}")
+    public @ResponseBody
+    Merchant getMerchantByID(@PathVariable(value = "id") Long merchantID) {
+        Optional<Merchant> res = merchantRepository.findById(merchantID);
         if (!res.isPresent())
             return null;
         return res.get();
@@ -49,41 +57,51 @@ public class DBController_Merchant {
 
     /**
      * Creates a new merchant with the given merchant name.
+     *
      * @param merchantName The merchant name associated with where the SYL Link landed
      * @return The newly created merchant
      */
-    @PostMapping(path="")
-    public @ResponseBody Merchant saveMerchant(@RequestParam(value="merchantName") String merchantName) {
+    @CacheEvict(cacheNames = {"Merchant", "Merchants"}, allEntries = true)
+    @PostMapping(path = "")
+    public @ResponseBody
+    Merchant saveMerchant(@RequestParam(value = "merchantName") String merchantName) {
         Merchant created = new Merchant(merchantName);
         return merchantRepository.save(created);
     }
 
     /**
      * Updates a merchant of the given ID with the given merchant name if it exists.
-     * @param id The ID of a merchant
+     *
+     * @param merchantID   The ID of a merchant
      * @param merchantName The new name of a merchant
      * @return The updated merchant, or null if the original did not exist
      */
-    @PostMapping(path="/{id}")
-    public @ResponseBody Merchant saveMerchantByID(@PathVariable(value="id") Long id,
-                                                   @RequestParam(value="merchantName") String merchantName) {
-        if (!merchantRepository.existsById(id)) {
+    @CachePut(cacheNames = "Merchant", key = "#merchantID")
+    @CacheEvict(cacheNames = "Merchants", allEntries = true)
+    @PostMapping(path = "/{id}")
+    public @ResponseBody
+    Merchant saveMerchantByID(@PathVariable(value = "id") Long merchantID,
+                              @RequestParam(value = "merchantName") String merchantName) {
+        if (!merchantRepository.existsById(merchantID)) {
             return null;
         }
-        Merchant old = merchantRepository.findById(id).get();
+        Merchant old = merchantRepository.findById(merchantID).get();
         old.setMerchantName(merchantName);
         return merchantRepository.save(old);
     }
 
     /**
      * Deletes a merchant and all of its associated clicks and links.
-     * @param id The ID of an associated merchant
+     *
+     * @param merchantID The ID of an associated merchant
      */
-    @DeleteMapping(path="/{id}")
-    public @ResponseBody void deleteMerchant(@PathVariable(value="id") Long id) {
-        if (merchantRepository.existsById(id))
-            merchantRepository.deleteById(id);
-        List<Link> links = linkRepository.findByMerchantID(id);
+    @CacheEvict(cacheNames = {"Click", "Clicks", "Link", "Links", "Merchant", "Merchants"}, allEntries = true)
+    @DeleteMapping(path = "/{id}")
+    public @ResponseBody
+    void deleteMerchant(@PathVariable(value = "id") Long merchantID) {
+        if (merchantRepository.existsById(merchantID))
+            merchantRepository.deleteById(merchantID);
+        List<Link> links = linkRepository.findByMerchantID(merchantID);
         if (links == null)
             return;
 

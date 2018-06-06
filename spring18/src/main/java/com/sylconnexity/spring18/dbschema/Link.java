@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @Entity // This tells Hibernate to make a table out of this class
 public class Link {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long linkID;      //Identifier for a given link
 
     private Long publisherID; //Identifier for an individual influencer
@@ -28,25 +28,31 @@ public class Link {
     private String originalURL;                 //The original URL associated with the SYL Link that the user provided
     private String imageRedirectPermahashLink;  //The unique hash code associated with a SYL Link
 
-    protected Link() {}
+    private String groupName;                       //The name of the group that the link belongs to
+
+    protected Link() {
+    }
 
     /**
      * Constructs a Link with an automatically generated, unique linkID.
-     * @param publisherID Identifier for an individual influencer
-     * @param merchantID The merchant identifier for where the SYL Link landed
-     * @param earnings Amount of money the influencer has earned from a SYL Link
-     * @param customTitle The title associated with the SYL Link that the user provided
-     * @param originalURL The original URL associated with the SYL Link that the user provided
+     *
+     * @param publisherID                Identifier for an individual influencer
+     * @param merchantID                 The merchant identifier for where the SYL Link landed
+     * @param earnings                   Amount of money the influencer has earned from a SYL Link
+     * @param customTitle                The title associated with the SYL Link that the user provided
+     * @param originalURL                The original URL associated with the SYL Link that the user provided
      * @param imageRedirectPermahashLink The unique hash code associated with a SYL Link
+     * @param groupName                      The name of the group that the link belongs to
      */
     public Link(Long publisherID, Long merchantID, Double earnings, String customTitle, String originalURL,
-                String imageRedirectPermahashLink) {
+                String imageRedirectPermahashLink, String groupName) {
         this.publisherID = publisherID;
         this.merchantID = merchantID;
         this.earnings = earnings;
         this.customTitle = customTitle;
         this.originalURL = originalURL;
         this.imageRedirectPermahashLink = imageRedirectPermahashLink;
+        this.groupName = groupName;
     }
 
     public Long getLinkID() {
@@ -105,4 +111,11 @@ public class Link {
         this.imageRedirectPermahashLink = imageRedirectPermahashLink;
     }
 
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 }

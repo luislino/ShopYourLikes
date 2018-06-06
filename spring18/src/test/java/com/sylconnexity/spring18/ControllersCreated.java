@@ -33,36 +33,36 @@ public class ControllersCreated {
         assertThat(controllerIndex).isNotNull();
     }
 
-    @Autowired
+    /*@Autowired
     private Controller_sampleUI controllerSampleUI;
     @Test
     public void sampleUI() throws Exception {
         assertThat(controllerSampleUI).isNotNull();
-    }
+    }*/
 
     @Autowired
-    private DBController_Click dbControllerClick;
+    private DBClickController dbControllerClick;
     @Test
     public void click() throws Exception {
         assertThat(dbControllerClick).isNotNull();
     }
 
     @Autowired
-    private DBController_Link dbControllerLink;
+    private DBLinkController dbControllerLink;
     @Test
     public void link() throws Exception {
         assertThat(dbControllerLink).isNotNull();
     }
 
     @Autowired
-    private DBController_Merchant dbControllerMerchant;
+    private DBMerchantController dbControllerMerchant;
     @Test
     public void merchant() throws Exception {
         assertThat(dbControllerMerchant).isNotNull();
     }
 
     @Autowired
-    private DBController_Publisher dbControllerPublisher;
+    private DBPublisherController dbControllerPublisher;
     @Test
     public void publisher() throws Exception {
         assertThat(dbControllerPublisher).isNotNull();

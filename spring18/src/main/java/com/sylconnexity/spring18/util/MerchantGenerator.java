@@ -11,6 +11,7 @@ public class MerchantGenerator extends RandomGenerator {
 
     /**
      * Constructs a MerchantGenerator with a given repository.
+     *
      * @param merchantRepo A merchant repository
      */
     public MerchantGenerator(MerchantRepository merchantRepo) {
