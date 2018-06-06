@@ -12,12 +12,12 @@ public class HeatmapController {
     @GetMapping("/heatmap")
     public ModelAndView Heatmap_page(@RequestParam(value = "linkID", defaultValue = "") String value) {
         ModelAndView result = new ModelAndView();
-        if(value.equals("")) {
+        if (value.equals("")) {
             result.addObject("control", true);
             result.addObject("linkid", "");
         } else {
             result.addObject("linkid", value);
-            result.addObject("control", false); 
+            result.addObject("control", false);
         }
 
         return result;
