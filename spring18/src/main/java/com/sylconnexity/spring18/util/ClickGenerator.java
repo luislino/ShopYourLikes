@@ -44,7 +44,7 @@ public class ClickGenerator extends RandomGenerator {
 
         String randomDate = generateRandomDate();
         String randomIP = generateRandomIP();
-        String dma = generateRandomString(30);
+        String dma = generateRandomDma();
         clickRepo.save(new Click(linkID, orderAmount, orderNumber, unitsOrdered, convertedToSale, randomDate, randomIP, dma));
     }
 }
