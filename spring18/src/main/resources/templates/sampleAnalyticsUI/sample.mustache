@@ -35,23 +35,19 @@
              */
             return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
                     '<thead>'+
-                    '<tr>'+
-                    '<th>Link</th>'+
-                    '<th># of Clicks</th>'+
-                    '<th>Earnings</th>'+
-                    '</tr>'+
+                        '<tr>'+
+                            '<th>Links</th>'+
+                            '<th>Units Ordered</th>'+
+                            '<th>Total Converted to Sale</th>'+
+                        '</tr>'+
                     '</thead>'+
-                    '<tbody>'+
-                    '<tr>'+
-                    '<td>https://www.toyota.com/prius/</td>'+
-                    '<td>27</td>'+
-                    '<td>$2.66</td>'+
-                    '</tr>'+
-                    '<tr>'+
-                    '<td>https://www.toyota.com/highlander/</td>'+
-                    '<td>33</td>'+
-                    '<td>$2.66</td>'+
-                    '</tr>'+
+                    '<tbody>{{#link_stats}}'+
+                        '<tr>'+
+                            '<td>{{OriginalURL}}</td>'+
+                            '<td>{{TotalUnitsOrdered}}</td>'+
+                            '<td>{{TotalConvertedToSale}}</td>'+
+                        '</tr>' +
+                    '{{/link_stats}}'+
                     '</table>';
         }
         $(document).ready(function() {
@@ -151,68 +147,45 @@
 </nav>
 <!-- Table hidden initially - potential way to show links of a category -->
 <div class="w3-container" id="popup_table" style="display:none;z-index:2;margin-top:43px">
-    <!-- TODO: Don't hardcode table entries, pull from database instead -->
     <table id="pop" class="display" style="width:100%">
         <thead>
         <tr>
             <th>PublisherID</th>
-            <th>Merchant ID</th>
-            <th>Earnings</th>
-            <th>Custom Title</th>
             <th>Original URL</th>
             <th>imageRedirectPermahashLink</th>
-            <th>groupName</th>
         </tr>
         </thead>
         <tbody>
         {{#links}}
             <tr>
                 <td>{{publisherID}}</td>
-                <td>{{merchantID}}</td>
-                <td>{{earnings}}</td>
-                <td>{{customTitle}}</td>
                 <td>{{originalURL}}</td>
                 <td>{{imageRedirectPermahashLink}}</td>
-                <td>{{groupName}}</td>
             </tr>
-
         {{/links}}
-
         </tbody>
-
     </table>
 </div>
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-top:43px;margin-left:300px">
-
-
     <div class="w3-container">
         <h5>Your Links</h5>
         <!-- TODO: Don't hardcode table entries, pull from database instead -->
         <table id="example" class="display" style="width:100%">
             <thead>
             <tr>
-                <th>PublisherID</th>
+                <th>Groups</th>
                 <th>Merchant ID</th>
                 <th>Earnings</th>
-                <th>Custom Title</th>
-                <th>Original URL</th>
-                <th>imageRedirectPermahashLink</th>
-                <th>groupName</th>
             </tr>
             </thead>
             <tbody>
             {{#links}}
                 <tr>
-                    <td>{{publisherID}}</td>
+                    <td>{{groupName}}</td>
                     <td>{{merchantID}}</td>
                     <td>{{earnings}}</td>
-                    <td>{{customTitle}}</td>
-                    <td>{{originalURL}}</td>
-                    <td>{{imageRedirectPermahashLink}}</td>
-                    <td>{{groupName}}</td>
                 </tr>
-
             {{/links}}
 
             </tbody>
