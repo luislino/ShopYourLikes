@@ -66,7 +66,6 @@ public class RandomGenerator {
     /**
      * Generates a random dma code
      *
-     * @
      * @return An string with a randomly selected dma number
      */
     public String generateRandomDma() {
@@ -303,7 +302,6 @@ public class RandomGenerator {
         return String.valueOf(dma_codes[n]);
 
     }
-
 
 
     /**

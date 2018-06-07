@@ -42,7 +42,7 @@ public class Link {
      * @param customTitle                The title associated with the SYL Link that the user provided
      * @param originalURL                The original URL associated with the SYL Link that the user provided
      * @param imageRedirectPermahashLink The unique hash code associated with a SYL Link
-     * @param groupName                      The name of the group that the link belongs to
+     * @param groupName                  The name of the group that the link belongs to
      */
     public Link(Long publisherID, Long merchantID, Double earnings, String customTitle, String originalURL,
                 String imageRedirectPermahashLink, String groupName) {

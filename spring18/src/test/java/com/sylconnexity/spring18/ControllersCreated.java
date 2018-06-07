@@ -22,14 +22,14 @@ public class ControllersCreated {
     @Autowired
     private Controller_Error404Page controller404Page;
     @Test
-    public void Error404Page() throws Exception {
+    public void Error404ControllerCreated() throws Exception {
         assertThat(controller404Page).isNotNull();
     }
 
     @Autowired
     private Controller_index controllerIndex;
     @Test
-    public void index() throws Exception {
+    public void IndexControllerCreated() throws Exception {
         assertThat(controllerIndex).isNotNull();
     }
 
@@ -43,28 +43,28 @@ public class ControllersCreated {
     @Autowired
     private DBClickController dbControllerClick;
     @Test
-    public void click() throws Exception {
+    public void ClickControllerCreated() throws Exception {
         assertThat(dbControllerClick).isNotNull();
     }
 
     @Autowired
     private DBLinkController dbControllerLink;
     @Test
-    public void link() throws Exception {
+    public void LinkControllerCreated() throws Exception {
         assertThat(dbControllerLink).isNotNull();
     }
 
     @Autowired
     private DBMerchantController dbControllerMerchant;
     @Test
-    public void merchant() throws Exception {
+    public void MerchantControllerCreated() throws Exception {
         assertThat(dbControllerMerchant).isNotNull();
     }
 
     @Autowired
     private DBPublisherController dbControllerPublisher;
     @Test
-    public void publisher() throws Exception {
+    public void PublisherControllerCreated() throws Exception {
         assertThat(dbControllerPublisher).isNotNull();
     }
 

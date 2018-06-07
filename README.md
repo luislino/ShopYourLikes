@@ -26,7 +26,7 @@ The database schema is available at the following REST API endpoints, with CRUD 
 
 Overall:
 * /clicks - *GET* with optional params linkID; *POST* with required params linkID, orderAmount, orderNumber, unitsOrdered, convertedToSale, redirectDate, ipAddress, dma (linkID must actually exist)
-* /links - *GET* with optional params publisherID, merchantID; *POST* with required params publisherID, merchantID, earnings, originalURL, imageRedirectPermahashlink and optional params customTitle (publisherID and merchantID must actually exist) 
+* /links - *GET* with optional params publisherID, merchantID, groupName; *POST* with required params publisherID, merchantID, earnings, originalURL, imageRedirectPermahashlink and optional params customTitle (publisherID and merchantID must actually exist) 
 * /merchants - *GET* with optional params merchantName; *POST* with required params merchantName
 * /publishers - *GET* with optional params username; *POST* with required params username, apiKey
 

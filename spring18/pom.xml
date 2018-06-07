@@ -54,6 +54,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20171018</version>
+		</dependency>
 		<!-- Java 6 = JAX-B Version 2.0   -->
 		<!-- Java 7 = JAX-B Version 2.2.3 -->
 		<!-- Java 8 = JAX-B Version 2.2.8 -->
