@@ -9,6 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HeatmapController {
 
+    /**
+     * Displays a click heatmap for a given link ID.
+     *
+     * @param value The ID of a link
+     * @return A view of a click heatmap for a given link ID
+     */
     @GetMapping("/heatmap")
     public ModelAndView Heatmap_page(@RequestParam(value = "linkID", defaultValue = "") String value) {
         ModelAndView result = new ModelAndView();

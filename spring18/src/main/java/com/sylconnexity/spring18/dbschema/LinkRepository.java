@@ -16,8 +16,8 @@ public interface LinkRepository extends CrudRepository<Link, Long> {
      * -1 or the group name is the empty string, they are ignored.
      *
      * @param publisherID The ID of a publisher
-     * @param merchantID The ID of a merchant
-     * @param groupName The name of a link's group
+     * @param merchantID  The ID of a merchant
+     * @param groupName   The name of a link's group
      * @return A list of Links matching the given criteria.
      */
     @Query("SELECT link FROM Link link WHERE " +

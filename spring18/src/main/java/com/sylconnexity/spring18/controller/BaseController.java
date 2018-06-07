@@ -31,7 +31,8 @@ public class BaseController {
     /**
      * Main controller that we will use the modelandview in
      *
-     * @param value        The user name
+     * @param value The user name
+     * @return A view of the links for a given user
      */
     @GetMapping("/sampleUI")
     public ModelAndView sample_view(@RequestParam(value = "name", defaultValue = "User") String value) {
@@ -130,6 +131,7 @@ public class BaseController {
      * @param customTitle                The title associated with the SYL Link that the user provided
      * @param originalURL                The original URL associated with the SYL Link that the user provided
      * @param imageRedirectPermahashLink The unique hash code associated with a SYL Link
+     * @param groupName                  The name of the group that the link belongs to
      * @return The newly created Link
      */
     @PostMapping(path = "")
