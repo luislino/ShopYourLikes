@@ -24,31 +24,34 @@
     <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="../resources/demo.js"></script>
     <script type="text/javascript" class="init">
-
         /* Formatting function for row details - modify as you need */
         function format ( d ) {
-            // `d` is the original data object for the row
 
-            /*
-             * TODO: Don't hardcode this table. Figure out if there is a way to return another datatable here, so that
-             * TODO: we can take advantage of the formatting/ have link dropdowns.
-             */
-            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            if (!d)
+                return '';
+
+            let groupInfo = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
                     '<thead>'+
                         '<tr>'+
                             '<th>Links</th>'+
                             '<th>Units Ordered</th>'+
-                            '<th>Total Converted to Sale</th>'+
+                            '<th>Total Sales</th>'+
                         '</tr>'+
                     '</thead>'+
-                    '<tbody>{{#link_stats}}'+
-                        '<tr>'+
+                    '<tbody>';
+
+            {{#link_stats}}
+            if (d[0] === '{{groupName}}')
+                groupInfo += '<tr>'+
                             '<td>{{OriginalURL}}</td>'+
                             '<td>{{TotalUnitsOrdered}}</td>'+
                             '<td>{{TotalConvertedToSale}}</td>'+
-                        '</tr>' +
-                    '{{/link_stats}}'+
-                    '</table>';
+                        '</tr>';
+            {{/link_stats}}
+
+            groupInfo += '</table>';
+
+            return groupInfo;
         }
         $(document).ready(function() {
             //TODO: Don't hardcode table entries, pull from database instead, probably need to make changes here as well
@@ -180,14 +183,13 @@
             </tr>
             </thead>
             <tbody>
-            {{#links}}
+            {{#groups}}
                 <tr>
-                    <td>{{groupName}}</td>
-                    <td>{{merchantID}}</td>
-                    <td>{{earnings}}</td>
+                    <td>{{GroupName}}</td>
+                    <td>{{MerchantID}}</td>
+                    <td>{{Earnings}}</td>
                 </tr>
-            {{/links}}
-
+            {{/groups}}
             </tbody>
 
         </table>
@@ -201,5 +203,6 @@
 
     <!-- End page content -->
 </div>
+
 
 </html>

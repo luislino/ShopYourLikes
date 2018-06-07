@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+
 /**
  * Base Controller
  */
@@ -39,29 +40,96 @@ public class BaseController {
         result.addObject("userName", value);
         result.setViewName("sampleAnalyticsUI/sample");
 
+        //Make groups
         List<Link> links = linkRepository.findByPublisherID(1L);
-        result.addObject("links", links);
+        List<Group> groups = new ArrayList();
+        //Create 10 groups
+        int i = 0;
+        for(Link l : links){
+            String group_name = "Group " + Integer.toString(i % 10);
+            l.setGroupName(group_name);
+            //Making the groups
+            boolean containsGroup = false;
+            for(Group g : groups){
+                if(g.getGroupName().equals(group_name)){
+                    g.addLink(l);
+                    containsGroup = true;
+                    break;
+                }
+            }
+            //add group if group doesn't contain
+            if(containsGroup == false ){
+                Group gr = new Group();
+                gr.addLink(l);
+                gr.setGroupName(group_name);
+                groups.add(gr);
+            }
+            i++;
+        }
+        result.addObject("groups", groups);
 
+//        for(Group g : groups){
+//            List<Click> clicks= clickRepository.findByLinkID(l.getLinkID());
+//            link_stats.add(new Link_Stat(clicks, l.getOriginalURL()));
+//        }
         // Get all the Links statistics based on all clicks for each link
         List<Link_Stat> link_stats = new ArrayList();
         for (Link l: links){
             List<Click> clicks= clickRepository.findByLinkID(l.getLinkID());
-            link_stats.add(new Link_Stat(clicks, l.getOriginalURL()));
+            link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName()));
         }
         result.addObject("link_stats", link_stats);
 
         return result;
     }
 
-    public class Link_Stat{
+    private class Group{
+        private List<Link> Links;
+        private String GroupName;
+        private Double Earnings;
+        private Long MerchantID;
+
+        public Group(){
+            Links = new ArrayList();
+            GroupName = "";
+            Earnings = 0.0;
+        }
+
+        //When you add a link, you add to the Link_stats list as well
+        public void addLink(Link link){
+            Links.add(link);
+            Earnings += link.getEarnings();
+            MerchantID = link.getMerchantID();
+            //Link_stats
+
+        }
+
+        public String getGroupName() {
+            return GroupName;
+        }
+
+        public void setGroupName(String groupName) {
+            GroupName = groupName;
+        }
+
+        public Double getEarnings() {
+            return Earnings;
+        }
+
+        public Long getMerchantID() {
+            return MerchantID;
+        }
+    }
+
+    //Statistics for one link
+    private class Link_Stat{
         private Long TotalUnitsOrdered;
         private int TotalConvertedToSale;
         private String OriginalURL;
-
-//        private Map<Long, Integer> StatMap;
+        private String groupName;
 
         //combine the # convertedToSale and unitsOrdered based on the clicks of that link
-        public Link_Stat(List<Click> clicks, String orig_URL){
+        public Link_Stat(List<Click> clicks, String orig_URL, String groupName){
             TotalUnitsOrdered = 0L;
             TotalConvertedToSale = 0;
             for(Click c : clicks){
@@ -70,6 +138,7 @@ public class BaseController {
                 TotalConvertedToSale += (c.getConvertedToSale()) ? 1 : 0;
             }
             OriginalURL = orig_URL;
+            this.groupName = groupName;
         }
         public Long getTotalUnitsOrdered() {
             return TotalUnitsOrdered;
@@ -81,6 +150,10 @@ public class BaseController {
 
         public String getOriginalURL() {
             return OriginalURL;
+        }
+
+        public String getGroupName() {
+            return groupName;
         }
     }
 
