@@ -1,6 +1,8 @@
 package com.sylconnexity.spring18.controller;
 
 import com.sylconnexity.spring18.dbschema.*;
+import com.sylconnexity.spring18.util.RetailLinkList;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
@@ -51,6 +59,54 @@ public class BaseController {
         }
         result.addObject("link_stats", link_stats);
 
+        return result;
+    }
+
+    // TODO: request publisherID and API key through POST data
+    private String PUBLISHER_ID = "628668";
+    private String API_KEY = "45c95d7b2796ffd28de48f4307bceb45";
+    private String convertToSylLink(String retailLink, String publisherID, String apiKey){
+        String BASE_API_URL = "http://api.shopyourlikes.com/api/link/generate";
+
+        return BASE_API_URL + "?url=" + retailLink + "&publisherId=" + publisherID + "&apiKey=" + apiKey;
+    }
+    @GetMapping("/batchForm")
+    public ModelAndView batchForm() {
+        return new ModelAndView("batch", "example", new RetailLinkList());
+    }
+
+    @PostMapping("/batchPost")
+    public ModelAndView submitForm(@ModelAttribute RetailLinkList example) {
+
+        String originalLinkList = example.getListOfLinks();
+        String convertedLinkList = "";
+        String removeCarriage = example.getListOfLinks();
+        removeCarriage = removeCarriage.replaceAll("\r\n", "\n");
+        String[] retailLinkArray = removeCarriage.split("\\n");
+
+
+        for (int i = 0; i < retailLinkArray.length; i++){
+            String completeURL = convertToSylLink(retailLinkArray[i], PUBLISHER_ID, API_KEY) + "\n";
+            try {
+                URL sylURL = new URL(completeURL);
+                URLConnection sylConnection = sylURL.openConnection();
+                BufferedReader connectionBuff = new BufferedReader(new InputStreamReader(sylConnection.getInputStream()));
+
+                String inputLine;
+                StringBuffer jsonBuffer= new StringBuffer();
+                while ((inputLine = connectionBuff.readLine()) != null){
+                    jsonBuffer.append(inputLine);
+                }
+                connectionBuff.close();
+                JSONObject sylJsonResponse = new JSONObject(jsonBuffer.toString());
+                convertedLinkList = convertedLinkList.concat(sylJsonResponse.getString("link")).concat("\n");
+            }
+            catch (MalformedURLException e) {}
+            catch (IOException e){}
+        }
+        example.setListOfLinks(convertedLinkList);
+        ModelAndView result = new ModelAndView("outputBatch","exampleOut", example);
+        result.addObject("originalRetailList", originalLinkList);
         return result;
     }
 
