@@ -60,7 +60,8 @@
                 for(var i = 0; i < request_links.length; i++){
                     if(request_links[i] == "")
                         continue;
-                    var url = convertToSylLink(request_links[i], "628668", "45c95d7b2796ffd28de48f4307bceb45");
+
+                    var url = convertToSylLink(request_links[i], "{{PublisherID}}","{{APIKey}}" );
                     $.get(url, function(data, status){
                         //alert("Data: " + data + "\nStatus: " + status);
                         console.log(data);

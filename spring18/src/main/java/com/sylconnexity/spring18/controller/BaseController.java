@@ -1,8 +1,6 @@
 package com.sylconnexity.spring18.controller;
 
 import com.sylconnexity.spring18.dbschema.*;
-import com.sylconnexity.spring18.util.RetailLinkList;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -50,74 +41,67 @@ public class BaseController {
         result.addObject("userName", value);
         result.setViewName("sampleAnalyticsUI/sample");
 
-        //Make groups
+        //Make groups and link stats
         List<Link> links = linkRepository.findByPublisherID(1L);
         Map<String, Group> groups = new HashMap();
+        Map<Long, MerchantGroup> merch_groups = new HashMap();
         List<Link_Stat> link_stats = new ArrayList();
-        //Create 10 groups
-       // int i = 0;
+
         for(Link l : links){
+            //Assemble groupings of links by merchant id
             if(true) {
-                Group l_group = groups.get(l.getGroupName());
-                if (l_group == null) {
-                    l_group = new Group(l.getGroupName());
-                    groups.put(l.getGroupName(), l_group);
+                MerchantGroup m_group = merch_groups.get(l.getMerchantID());
+                if (m_group == null) {
+                    m_group = new MerchantGroup(l.getMerchantID());
+                    merch_groups.put(l.getMerchantID(), m_group);
                 }
-                l_group.addLink(l);
+                m_group.addLink(l);
             }
-            //String group_name = "Group " + Integer.toString(i % 10);
-            //l.setGroupName(group_name);
-            //Making the groups
-        /*boolean containsGroup = false;
-        for(Group g : groups){
-            if(g.getGroupName().equals(group_name)){
-                g.addLink(l);
-                containsGroup = true;
-                break;
+
+            //Assemble groupings of links by group name
+            Group l_group = groups.get(l.getGroupName());
+            if (l_group == null) {
+                l_group = new Group(l.getGroupName());
+                groups.put(l.getGroupName(), l_group);
             }
-        }
-        */
+            l_group.addLink(l);
+
+            //Assemble stats for each individual link
             Long id = l.getLinkID();
             List<Click> clicks = clickRepository.findByLinkID(id);
-            link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName(), id));
-        /*
-        //add group if group doesn't contain
-        if(containsGroup == false ){
-            Group gr = new Group();
-            gr.addLink(l);
-            gr.setGroupName(group_name);
-            groups.add(gr);
-        }
-        i++;
-        */
+            link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName(), id, l.getMerchantID()));
 
         }
+
         result.addObject("groups", groups.values());
-
-//        for(Group g : groups){
-//            List<Click> clicks= clickRepository.findByLinkID(l.getLinkID());
-//            link_stats.add(new Link_Stat(clicks, l.getOriginalURL()));
-//        }
-        // Get all the Links statistics based on all clicks for each link
-        /* Done above
-        List<Link_Stat> link_stats = new ArrayList();
-        for (Link l: links){
-            Long id = l.getLinkID();
-            List<Click> clicks= clickRepository.findByLinkID(id);
-            link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName(), id));
-
-        }
-        */
+        result.addObject("merchantGroups", merch_groups.values());
         result.addObject("link_stats", link_stats);
 
         return result;
     }
+    private class MerchantGroup{
+        private Double Earnings;
+        private Long MerchantID;
+        private int NumberOfLinks;
 
+        public MerchantGroup(Long merchant_id){
+            //Links = new ArrayList();
+            MerchantID = merchant_id;
+            Earnings = 0.0;
+            NumberOfLinks = 0;
+        }
+
+        //When you add a link, you add to the Link_stats list as well
+        public void addLink(Link link){
+            //Links.add(link);
+            Earnings += link.getEarnings();
+            NumberOfLinks++;
+        }
+    }
     private class Group{
         //private List<Link> Links;
         private String GroupName;
         private Double Earnings;
-        private Long MerchantID;
         private int NumberOfLinks;
         public Group(String groupName){
             //Links = new ArrayList();
@@ -131,11 +115,6 @@ public class BaseController {
             //Links.add(link);
             Earnings += link.getEarnings();
             NumberOfLinks++;
-            //Merchant ID doesn't make sense in this context as each link in a group may
-            //have a different merchant id
-            MerchantID = link.getMerchantID();
-            //Link_stats
-
         }
 
         public String getGroupName() {
@@ -150,77 +129,32 @@ public class BaseController {
             return Earnings;
         }
 
-        public Long getMerchantID() {
-            return MerchantID;
-        }
     }
 
-    // TODO: request publisherID and API key through POST data
-    private String PUBLISHER_ID = "628668";
-    private String API_KEY = "45c95d7b2796ffd28de48f4307bceb45";
-    private String convertToSylLink(String retailLink, String publisherID, String apiKey){
-        String BASE_API_URL = "http://api.shopyourlikes.com/api/link/generate";
-
-        return BASE_API_URL + "?url=" + retailLink + "&publisherId=" + publisherID + "&apiKey=" + apiKey;
-    }
+    private final String PUBLISHER_ID = "628668";
+    private final String API_KEY = "45c95d7b2796ffd28de48f4307bceb45";
 
     @GetMapping("/batchForm")
-    public ModelAndView batchForm(@RequestParam(value = "name", defaultValue = "User") String value) {
+    public ModelAndView batchForm(@RequestParam(value = "name", defaultValue = "User") String name,
+                                  @RequestParam(value = "publisherId", defaultValue = PUBLISHER_ID) String pubId,
+                                  @RequestParam(value = "apiKey", defaultValue = API_KEY) String apiKey) {
         ModelAndView result = new ModelAndView();
-        result.addObject("userName", value);
+        result.addObject("userName", name);
+        result.addObject("PublisherID", pubId);
+        result.addObject("APIKey", apiKey);
         result.setViewName("batch");
         return result;
     }
-/*
-    @GetMapping("/batchForm")
-    public ModelAndView batchForm() {
-        return new ModelAndView("batch", "example", new RetailLinkList());
-    }
-    */
-    /*
-       @PostMapping("/batchPost")
-       public ModelAndView submitForm(@ModelAttribute RetailLinkList example) {
 
-           String originalLinkList = example.getListOfLinks();
-           String convertedLinkList = "";
-           String removeCarriage = example.getListOfLinks();
-           removeCarriage = removeCarriage.replaceAll("\r\n", "\n");
-           String[] retailLinkArray = removeCarriage.split("\\n");
-
-
-           for (int i = 0; i < retailLinkArray.length; i++){
-               String completeURL = convertToSylLink(retailLinkArray[i], PUBLISHER_ID, API_KEY) + "\n";
-               try {
-                   URL sylURL = new URL(completeURL);
-                   URLConnection sylConnection = sylURL.openConnection();
-                   BufferedReader connectionBuff = new BufferedReader(new InputStreamReader(sylConnection.getInputStream()));
-
-                   String inputLine;
-                   StringBuffer jsonBuffer= new StringBuffer();
-                   while ((inputLine = connectionBuff.readLine()) != null){
-                       jsonBuffer.append(inputLine);
-                   }
-                   connectionBuff.close();
-                   JSONObject sylJsonResponse = new JSONObject(jsonBuffer.toString());
-                   convertedLinkList = convertedLinkList.concat(sylJsonResponse.getString("link")).concat("\n");
-               }
-               catch (MalformedURLException e) {}
-               catch (IOException e){}
-           }
-           example.setListOfLinks(convertedLinkList);
-           ModelAndView result = new ModelAndView("outputBatch","exampleOut", example);
-           result.addObject("originalRetailList", originalLinkList);
-           return result;
-       }
-       */
     public class Link_Stat {
         private Long TotalUnitsOrdered;
         private int TotalConvertedToSale;
         private String OriginalURL;
         private String groupName;
         private Long LinkID;
+        private Long MerchantID;
         //combine the # convertedToSale and unitsOrdered based on the clicks of that link
-        public Link_Stat(List<Click> clicks, String orig_URL, String groupName, Long link_id){
+        public Link_Stat(List<Click> clicks, String orig_URL, String groupName, Long link_id, Long merchant_id){
             TotalUnitsOrdered = 0L;
             TotalConvertedToSale = 0;
             for (Click c : clicks) {
@@ -230,6 +164,7 @@ public class BaseController {
             }
             OriginalURL = orig_URL;
             LinkID = link_id;
+            MerchantID = merchant_id;
             this.groupName = groupName;
         }
 

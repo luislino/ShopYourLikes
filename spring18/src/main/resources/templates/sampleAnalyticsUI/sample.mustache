@@ -40,26 +40,28 @@
                         '</tr>'+
                     '</thead>'+
                     '<tbody>';
-
+            var cat = document.getElementById("category").value;
             {{#link_stats}}
-            if (d[0] === '{{groupName}}')
-                groupInfo += '<tr>'+
-                            '<td>{{OriginalURL}}</td>'+
-                            '<td>{{TotalUnitsOrdered}}</td>'+
-                            '<td>{{TotalConvertedToSale}}</td>'+
-                            '<td onmouseover="" style="font-size:48px; cursor:pointer; color:blue" onclick="window.open(\'/heatmap?linkID={{LinkID}}\', \'_blank\');" <i class="fa fa-globe"></i>'+
-                            '</td>'+
-                        '</tr>';
+                if (cat == "groupName" && d[0] === '{{groupName}}' ||
+                    cat == "merchId"  && d[0] === '{{MerchantID}}' ){
+
+                        groupInfo += '<tr>' +
+                                '<td>{{OriginalURL}}</td>' +
+                                '<td>{{TotalUnitsOrdered}}</td>' +
+                                '<td>{{TotalConvertedToSale}}</td>' +
+                                '<td onmouseover="" style="font-size:48px; cursor:pointer; color:blue" onclick="window.open(\'/heatmap?linkID={{LinkID}}\', \'_blank\');" <i class="fa fa-globe"></i>' +
+                                '</td>' +
+                                '</tr>';
+                 }
             {{/link_stats}}
 
             groupInfo += '</table>';
 
             return groupInfo;
         }
+
         $(document).ready(function() {
-            //TODO: Don't hardcode table entries, pull from database instead, probably need to make changes here as well
-            //TODO: as at the table declaration.
-            var table = $('#example').DataTable( {
+            var name_table = $('#example').DataTable( {
                 "paging" : true,
                 "info"   : false,
                 "searching" : true,
@@ -68,31 +70,67 @@
                     {"className": "dt-center", "targets": [1, 2]}
                 ]
             } );
-            var popup =document.getElementById("popup_table");
+
             // Add event listener for opening and closing details
-            $('#example tbody').on('click', 'td', function () {
-                var tr = $(this).closest('tr');
-                var row = table.row( tr );
+            $("#example tbody").each(function() {
+                $(this).on('click', 'td', function () {
+                    var tr = $(this).closest('tr');
+                    var row = name_table.row(tr);
 
-                /* One way to implement a popup window
-                if(popup.style.display === "none")
-                    popup.style.display = "block";
-                else
-                    popup.style.display = "none";
-                */
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else if (1) {
+                        // Open this row
+                        row.child(format(row.data())).show();
+                        tr.addClass('shown');
 
-                if ( row.child.isShown() ) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
-                }
-                else if(1) {
-                    // Open this row
-                    row.child( format(row.data()) ).show();
-                    tr.addClass('shown');
-
-                }
+                    }
+                });
+            });
+            var merch_table = $('#merchant_sort').DataTable( {
+                "paging" : true,
+                "info"   : false,
+                "searching" : true,
+                "columnDefs" : [
+                    //{"width":"60%", "targets":0},
+                    {"className": "dt-center", "targets": [1, 2]}
+                ]
             } );
+            $('#merchant_sort').parents('div.dataTables_wrapper').first().hide();
+
+            // Add event listener for opening and closing details
+            $("#merchant_sort tbody").each(function() {
+                $(this).on('click', 'td', function () {
+                    var tr = $(this).closest('tr');
+                    var row = merch_table.row(tr);
+
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else if (1) {
+                        // Open this row
+                        row.child(format(row.data())).show();
+                        tr.addClass('shown');
+
+                    }
+                });
+            });
+            $("#category").change(function(){
+                var cat = document.getElementById("category").value;
+                if(cat == "groupName"){
+                    $('#example').parents('div.dataTables_wrapper').first().show();
+                    $('#merchant_sort').parents('div.dataTables_wrapper').first().hide();
+                }else {
+                    $('#merchant_sort').parents('div.dataTables_wrapper').first().show();
+                    $('#example').parents('div.dataTables_wrapper').first().hide();
+                }
+            });
+
         } );
 
         // Toggle between showing and hiding the sidebar, and add overlay effect
@@ -178,29 +216,60 @@
     </table>
 </div>
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-top:53px;margin-left:300px">
+<div class="w3-main" style="margin-top:43px;margin-left:300px">
     <div class="w3-container">
         <!-- <button class="w3-button w3-green" >Add  -->
-        <h3>Your Links</h3>
-        <table id="example" class="display" style="width:100%;margin-top:0;margin-bottom:0px">
-            <thead>
-            <tr>
-                <th>Group</th>
-                <th>Number of Links</th>
-                <th>Earnings</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#groups}}
-                <tr>
-                    <td>{{GroupName}}</td>
-                    <td>{{NumberOfLinks}}</td>
-                    <td>{{Earnings}}</td>
-                </tr>
-            {{/groups}}
-            </tbody>
 
-        </table>
+        <div style="float:left;display:inline-block;margin-top:5px">
+            <h3>Your Links</h3>
+        </div>
+
+        <div style="float:right;display:inline-block;margin-right:52px">
+            <h6 style="margin-left:5px">Group by:</h6>
+            <select id="category" style="float:left;margin-top:-13px">
+                <option value="groupName">Group Name</option>
+                <option value="merchId">Merchant</option>
+            </select>
+        </div>
+
+
+        <table id="example" class="display" style="width:100%;margin-top:0;margin-bottom:0px">
+        <thead>
+        <tr>
+            <th>Group</th>
+            <th>Number of Links</th>
+            <th>Earnings</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#groups}}
+            <tr>
+                <td>{{GroupName}}</td>
+                <td>{{NumberOfLinks}}</td>
+                <td>{{Earnings}}</td>
+            </tr>
+        {{/groups}}
+        </tbody>
+    </table>
+
+    <table id="merchant_sort" class="display" style="width:100%;margin-top:0;margin-bottom:0px">
+        <thead>
+        <tr>
+            <th>Merchant</th>
+            <th>Number of Links</th>
+            <th>Earnings</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#merchantGroups}}
+            <tr>
+                <td>{{MerchantID}}</td>
+                <td>{{NumberOfLinks}}</td>
+                <td>{{Earnings}}</td>
+            </tr>
+        {{/merchantGroups}}
+        </tbody>
+    </table>
     </div>
     <a href="/batchForm" style="margin-left:17px;">
         <button onmouseover="" style="font-size:20px;border-color:limegreen;cursor:pointer;background-color:lawngreen;">
