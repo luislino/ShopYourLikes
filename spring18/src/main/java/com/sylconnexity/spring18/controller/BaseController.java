@@ -73,17 +73,30 @@ public class BaseController {
 
         }
 
+        for(Group g : groups.values()){
+            g.setEarningsPerLink(roundTo2(g.Earnings/g.NumberOfLinks));
+            g.setEarnings(roundTo2(g.Earnings));
+        }
+        for(MerchantGroup g : merch_groups.values()){
+            g.setEarningsPerLink(roundTo2(g.Earnings/g.NumberOfLinks));
+            g.setEarnings(roundTo2(g.Earnings));
+        }
+
         result.addObject("groups", groups.values());
         result.addObject("merchantGroups", merch_groups.values());
         result.addObject("link_stats", link_stats);
 
         return result;
     }
+
+    private Double roundTo2(Double val){
+        return Math.round(100.0*val)/100.0;
+    }
     private class MerchantGroup{
         private Double Earnings;
         private Long MerchantID;
         private int NumberOfLinks;
-
+        private Double EarningsPerLink;
         public MerchantGroup(Long merchant_id){
             //Links = new ArrayList();
             MerchantID = merchant_id;
@@ -97,12 +110,22 @@ public class BaseController {
             Earnings += link.getEarnings();
             NumberOfLinks++;
         }
+
+        public void setEarningsPerLink(Double earningsPerLink){
+            EarningsPerLink = earningsPerLink;
+        }
+
+        public void setEarnings(Double earnings){
+            Earnings = earnings;
+        }
     }
     private class Group{
         //private List<Link> Links;
         private String GroupName;
         private Double Earnings;
         private int NumberOfLinks;
+        private Double EarningsPerLink;
+
         public Group(String groupName){
             //Links = new ArrayList();
             GroupName = groupName;
@@ -117,18 +140,13 @@ public class BaseController {
             NumberOfLinks++;
         }
 
-        public String getGroupName() {
-            return GroupName;
+        public void setEarningsPerLink(Double earningsPerLink){
+            EarningsPerLink = earningsPerLink;
         }
 
-        public void setGroupName(String groupName) {
-            GroupName = groupName;
+        public void setEarnings(Double earnings){
+            Earnings = earnings;
         }
-
-        public Double getEarnings() {
-            return Earnings;
-        }
-
     }
 
     private final String PUBLISHER_ID = "628668";

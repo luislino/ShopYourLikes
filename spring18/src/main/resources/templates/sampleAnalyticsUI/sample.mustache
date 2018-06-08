@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>W3.CSS Template</title>
+    <title>SYL Link Journal</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -16,6 +16,21 @@
 
     <style type="text/css" class="init">
         html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+        hr {
+            display: block;
+            position: relative;
+            padding: 0;
+            margin: 8px auto;
+            height: 0;
+            width: 100%;
+            max-height: 0;
+            font-size: 1px;
+            line-height: 0;
+            clear: both;
+            border: none;
+            border-top: 1px solid #aaaaaa;
+            border-bottom: 1px solid #ffffff;
+        }
     </style>
     <script type="text/javascript" src="/media/js/site.js?_=a3593f0ad38e48ce5d1fcf0f4769c5b8"></script>
     <script type="text/javascript"
@@ -26,6 +41,7 @@
     <script type="text/javascript" language="javascript" src="../resources/demo.js"></script>
     <script type="text/javascript" class="init">
         /* Formatting function for row details - modify as you need */
+
         function format ( d ) {
 
             if (!d)
@@ -63,11 +79,11 @@
         $(document).ready(function() {
             var name_table = $('#example').DataTable( {
                 "paging" : true,
-                "info"   : false,
+                "info"   : true,
                 "searching" : true,
                 "columnDefs" : [
                     //{"width":"60%", "targets":0},
-                    {"className": "dt-center", "targets": [1, 2]}
+                    {"className": "dt-center", "targets": [0, 1, 2, 3]}
                 ]
             } );
 
@@ -92,11 +108,11 @@
             });
             var merch_table = $('#merchant_sort').DataTable( {
                 "paging" : true,
-                "info"   : false,
+                "info"   : true,
                 "searching" : true,
                 "columnDefs" : [
                     //{"width":"60%", "targets":0},
-                    {"className": "dt-center", "targets": [1, 2]}
+                    {"className": "dt-center", "targets": [0, 1, 2, 3]}
                 ]
             } );
             $('#merchant_sort').parents('div.dataTables_wrapper').first().hide();
@@ -194,44 +210,26 @@
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
     </div>
 </nav>
-<!-- Table hidden initially - potential way to show links of a category -->
-<div class="w3-container" id="popup_table" style="display:none;z-index:2;margin-top:43px">
-    <table id="pop" class="display" style="width:100%">
-        <thead>
-        <tr>
-            <th>PublisherID</th>
-            <th>Original URL</th>
-            <th>imageRedirectPermahashLink</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#links}}
-            <tr>
-                <td>{{publisherID}}</td>
-                <td>{{originalURL}}</td>
-                <td>{{imageRedirectPermahashLink}}</td>
-            </tr>
-        {{/links}}
-        </tbody>
-    </table>
-</div>
+
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-top:43px;margin-left:300px">
+<div class="w3-main" style="margin-top:48px;margin-left:300px">
     <div class="w3-container">
         <!-- <button class="w3-button w3-green" >Add  -->
 
-        <div style="float:left;display:inline-block;margin-top:5px">
+        <div style="float:left;display:inline-block">
             <h3>Your Links</h3>
         </div>
 
-        <div style="float:right;display:inline-block;margin-right:52px">
-            <h6 style="margin-left:5px">Group by:</h6>
-            <select id="category" style="float:left;margin-top:-13px">
+        <div style="float:right;display:inline-block;margin-top:5px">
+            <h6 style="display:inline-block;">Group by:</h6>
+            <select id="category" style="display:inline-block;">
                 <option value="groupName">Group Name</option>
                 <option value="merchId">Merchant</option>
             </select>
-        </div>
 
+
+        </div>
+        <hr>
 
         <table id="example" class="display" style="width:100%;margin-top:0;margin-bottom:0px">
         <thead>
@@ -239,6 +237,7 @@
             <th>Group</th>
             <th>Number of Links</th>
             <th>Earnings</th>
+            <th>Earnings per link</th>
         </tr>
         </thead>
         <tbody>
@@ -246,7 +245,8 @@
             <tr>
                 <td>{{GroupName}}</td>
                 <td>{{NumberOfLinks}}</td>
-                <td>{{Earnings}}</td>
+                <td>${{Earnings}}</td>
+                <td>${{EarningsPerLink}}</td>
             </tr>
         {{/groups}}
         </tbody>
@@ -258,6 +258,7 @@
             <th>Merchant</th>
             <th>Number of Links</th>
             <th>Earnings</th>
+            <th>Earnings per link</th>
         </tr>
         </thead>
         <tbody>
@@ -265,12 +266,14 @@
             <tr>
                 <td>{{MerchantID}}</td>
                 <td>{{NumberOfLinks}}</td>
-                <td>{{Earnings}}</td>
+                <td>${{Earnings}}</td>
+                <td>${{EarningsPerLink}}</td>
             </tr>
         {{/merchantGroups}}
         </tbody>
     </table>
     </div>
+    <hr>
     <a href="/batchForm" style="margin-left:17px;">
         <button onmouseover="" style="font-size:20px;border-color:limegreen;cursor:pointer;background-color:lawngreen;">
             <i class="fa fa-plus-circle" style="color:green"></i> Add More Links
