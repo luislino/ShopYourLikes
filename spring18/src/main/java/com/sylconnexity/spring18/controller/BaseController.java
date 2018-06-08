@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Base Controller
@@ -51,14 +52,21 @@ public class BaseController {
 
         //Make groups
         List<Link> links = linkRepository.findByPublisherID(1L);
-        List<Group> groups = new ArrayList();
+        Map<String, Group> groups = new HashMap();
+        List<Link_Stat> link_stats = new ArrayList();
         //Create 10 groups
-        int i = 0;
+       // int i = 0;
         for(Link l : links){
-            String group_name = "Group " + Integer.toString(i % 10);
-            l.setGroupName(group_name);
+            Group l_group = groups.get(l.getGroupName());
+            if(l_group == null){
+                l_group = new Group(l.getGroupName());
+                groups.put(l.getGroupName(), l_group);
+            }
+            l_group.addLink(l);
+            //String group_name = "Group " + Integer.toString(i % 10);
+            //l.setGroupName(group_name);
             //Making the groups
-            boolean containsGroup = false;
+            /*boolean containsGroup = false;
             for(Group g : groups){
                 if(g.getGroupName().equals(group_name)){
                     g.addLink(l);
@@ -66,6 +74,11 @@ public class BaseController {
                     break;
                 }
             }
+            */
+            Long id = l.getLinkID();
+            List<Click> clicks= clickRepository.findByLinkID(id);
+            link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName(), id));
+            /*
             //add group if group doesn't contain
             if(containsGroup == false ){
                 Group gr = new Group();
@@ -74,40 +87,49 @@ public class BaseController {
                 groups.add(gr);
             }
             i++;
+            */
         }
-        result.addObject("groups", groups);
+        result.addObject("groups", groups.values());
 
 //        for(Group g : groups){
 //            List<Click> clicks= clickRepository.findByLinkID(l.getLinkID());
 //            link_stats.add(new Link_Stat(clicks, l.getOriginalURL()));
 //        }
         // Get all the Links statistics based on all clicks for each link
+        /* Done above
         List<Link_Stat> link_stats = new ArrayList();
         for (Link l: links){
-            List<Click> clicks= clickRepository.findByLinkID(l.getLinkID());
-            link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName()));
+            Long id = l.getLinkID();
+            List<Click> clicks= clickRepository.findByLinkID(id);
+            link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName(), id));
+
         }
+        */
         result.addObject("link_stats", link_stats);
 
         return result;
     }
 
     private class Group{
-        private List<Link> Links;
+        //private List<Link> Links;
         private String GroupName;
         private Double Earnings;
         private Long MerchantID;
-
-        public Group(){
-            Links = new ArrayList();
-            GroupName = "";
+        private int NumberOfLinks;
+        public Group(String groupName){
+            //Links = new ArrayList();
+            GroupName = groupName;
             Earnings = 0.0;
+            NumberOfLinks = 0;
         }
 
         //When you add a link, you add to the Link_stats list as well
         public void addLink(Link link){
-            Links.add(link);
+            //Links.add(link);
             Earnings += link.getEarnings();
+            NumberOfLinks++;
+            //Merchant ID doesn't make sense in this context as each link in a group may
+            //have a different merchant id
             MerchantID = link.getMerchantID();
             //Link_stats
 
@@ -183,9 +205,9 @@ public class BaseController {
         private int TotalConvertedToSale;
         private String OriginalURL;
         private String groupName;
-
+        private Long LinkID;
         //combine the # convertedToSale and unitsOrdered based on the clicks of that link
-        public Link_Stat(List<Click> clicks, String orig_URL, String groupName){
+        public Link_Stat(List<Click> clicks, String orig_URL, String groupName, Long link_id){
             TotalUnitsOrdered = 0L;
             TotalConvertedToSale = 0;
             for (Click c : clicks) {
@@ -194,6 +216,7 @@ public class BaseController {
                 TotalConvertedToSale += (c.getConvertedToSale()) ? 1 : 0;
             }
             OriginalURL = orig_URL;
+            LinkID = link_id;
             this.groupName = groupName;
         }
 

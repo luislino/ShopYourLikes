@@ -51,6 +51,8 @@
                             '<td>{{OriginalURL}}</td>'+
                             '<td>{{TotalUnitsOrdered}}</td>'+
                             '<td>{{TotalConvertedToSale}}</td>'+
+                            '<td onmouseover="" style="font-size:48px; cursor:pointer; color:blue" onclick="window.open(\'/heatmap?linkID={{LinkID}}\', \'_blank\');" <i class="fa fa-globe"></i>'+
+                            '</td>'+
                         '</tr>';
             {{/link_stats}}
 
@@ -67,7 +69,7 @@
                 "searching" : false,
                 "columnDefs" : [
                     {"width":"60%", "targets":0},
-                    {"className": "dt-center", "targets": [1, 2]}
+                    //{"className": "dt-center", "targets": [1, 2]}
                 ]
             } );
             var popup =document.getElementById("popup_table");
@@ -185,12 +187,14 @@
 <div class="w3-main" style="margin-top:43px;margin-left:300px">
     <div class="w3-container">
         <h5>Your Links</h5>
+        <a href="/batchForm"><button class="w3-button w3-dark-grey">Add more links <i class="fa fa-arrow-right"></i></button></a>
+
         <!-- TODO: Don't hardcode table entries, pull from database instead -->
         <table id="example" class="display" style="width:100%">
             <thead>
             <tr>
                 <th>Groups</th>
-                <th>Merchant ID</th>
+                <th>Number of Links</th>
                 <th>Earnings</th>
             </tr>
             </thead>
@@ -198,14 +202,13 @@
             {{#groups}}
                 <tr>
                     <td>{{GroupName}}</td>
-                    <td>{{MerchantID}}</td>
+                    <td>{{NumberOfLinks}}</td>
                     <td>{{Earnings}}</td>
                 </tr>
             {{/groups}}
             </tbody>
 
         </table>
-        <a href="/batchForm"><button class="w3-button w3-dark-grey">Add more links <i class="fa fa-arrow-right"></i></button></a>
     </div>
 
     <!-- Footer -->
