@@ -17,12 +17,86 @@
 
     <style type="text/css" class="init">
         html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+        textarea.resizable_area {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            width:100%;
+            resize: none;
+        }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" class="init">
+
+
+        function convertToSylLink(retailLink, pubId, apiKey){
+            var BASE_API_URL = "http://api.shopyourlikes.com/api/link/generate";
+            return BASE_API_URL + "?url=" + retailLink + "&publisherId=" + pubId + "&apiKey=" + apiKey +"\n";
+        }
+
+        $(document).ready(function(){
+            $("#gen").click(function(){
+
+                var original_links = document.getElementById("listOfLinks").value;
+
+                if(original_links == ""){
+                    return;
+                }
+                var request_links = original_links.split(/\s+/);
+                var syl_links = document.getElementById("sylLinks");
+
+                syl_links.style.display = "block";
+
+                if(request_links[0] == ""){
+                    //leave the default message up by clearing the text field when no
+                    //valid urls are returned
+                    syl_links.value = "Make sure your links are valid, and that you have a blank space between each of them."
+                    return;
+                }else {
+                    //Waiting symbol in case it takes a long time
+                    syl_links.value = "";
+                }
+
+                for(var i = 0; i < request_links.length; i++){
+                    if(request_links[i] == "")
+                        continue;
+                    var url = convertToSylLink(request_links[i], "628668", "45c95d7b2796ffd28de48f4307bceb45");
+                    $.get(url, function(data, status){
+                        //alert("Data: " + data + "\nStatus: " + status);
+                        console.log(data);
+                        if(status == "success"){
+                            syl_links.value += data.link +"\n";
+                        }
+
+                    });
+                }
+            });
+        });
+
+        // Toggle between showing and hiding the sidebar, and add overlay effect
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        }
+
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
+    </script>
+
 </head>
+
 <body class="w3-light-grey">
 
 <!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4;margin-left:0px;margin-right:0px">
     <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
     <span class="w3-bar-item ">SYL Journal</span>
 </div>
@@ -34,7 +108,7 @@
             <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
         </div>
         <div class="w3-col s8 w3-bar">
-            <span>Welcome, <strong>Mike</strong></span><br>
+            <span>Welcome, <strong>{{userName}}</strong></span><br>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
@@ -45,37 +119,41 @@
         <h5>Dashboard</h5>
     </div>
     <div class="w3-bar-block">
-        <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Views</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Traffic</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Geo</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  General</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
+        <a href="/sampleUI" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Link Journal</a>
+        <a href="" class="w3-bar-item w3-button w3-padding  w3-blue"><i class="fa fa-eye fa-fw"></i>  Link Generator</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Placeholder 2</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Placeholder 3</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Placeholder 4</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  Placeholder 5</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Placeholder 6</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  Placeholder 7</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
     </div>
 </nav>
+
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-top:43px;margin-left:300px">
+<div class="w3-main" style="margin-top:43px;margin-left:300px;margin-right:0px">
 
 
-    <div class="w3-container">
-        <h2>Batch Link Creation</h2>
+    <div class="w3-container" style="margin-left:0px;margin-right:0px">
+        <h2>Link Generator</h2>
+        <textarea class="resizable_area" name = "listOfLinks" id="listOfLinks" rows="10" placeholder="Paste your links into this window, and then click the 'Generate Links' button"></textarea><br>
+        <button id="gen" style="margin-top:0px; margin-bottom:10px" class="w3-button w3-dark-grey" >Generate Links </button>
         <!--        <button class="w3-button w3-dark-grey">Add more links <i class="fa fa-arrow-right"></i></button> -->
-        <p>Retailer Links:</p><br>
-        <form name="example" action="batchPost" method="post">
-            <textarea name="listOfLinks" cols="50" rows="7"></textarea><br><br>
-            <!--<input type="text" name="listOfLinks" /><br/>-->
+       <!--
+        <form name="example"> <!-- action="batchPost" method="post">
+            <input type="text" name="listOfLinks" /><br/>
 
-            <!-- <input type="submit" value="Generate SYL Links" onclick="batchGenerator()"/><br><br> -->
-            <input type="submit" value="Generate SYL Links"/><br><br>
+           <input type="submit" value="Generate SYL Links" onclick="batchGenerator()"/><br><br>
+            <input type="submit" value="Generate Links"/><br><br>
         </form>
-        <textarea id="sylLinks" cols="50" rows="7"></textarea>
 
-
+        -->
+        <textarea readonly class="resizable_area" style="display:none;" id="sylLinks" rows="10"
+                  placeholder="Waiting for links to be created... (if it stays like this for a while, your internet connection may have failed)">
+        </textarea>
     </div>
+
     <!-- Footer -->
     <footer class="w3-container w3-padding-16 w3-light-grey">
     </footer>

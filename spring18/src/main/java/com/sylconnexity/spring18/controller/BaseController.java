@@ -57,37 +57,40 @@ public class BaseController {
         //Create 10 groups
        // int i = 0;
         for(Link l : links){
-            Group l_group = groups.get(l.getGroupName());
-            if(l_group == null){
-                l_group = new Group(l.getGroupName());
-                groups.put(l.getGroupName(), l_group);
+            if(true) {
+                Group l_group = groups.get(l.getGroupName());
+                if (l_group == null) {
+                    l_group = new Group(l.getGroupName());
+                    groups.put(l.getGroupName(), l_group);
+                }
+                l_group.addLink(l);
             }
-            l_group.addLink(l);
             //String group_name = "Group " + Integer.toString(i % 10);
             //l.setGroupName(group_name);
             //Making the groups
-            /*boolean containsGroup = false;
-            for(Group g : groups){
-                if(g.getGroupName().equals(group_name)){
-                    g.addLink(l);
-                    containsGroup = true;
-                    break;
-                }
+        /*boolean containsGroup = false;
+        for(Group g : groups){
+            if(g.getGroupName().equals(group_name)){
+                g.addLink(l);
+                containsGroup = true;
+                break;
             }
-            */
+        }
+        */
             Long id = l.getLinkID();
-            List<Click> clicks= clickRepository.findByLinkID(id);
+            List<Click> clicks = clickRepository.findByLinkID(id);
             link_stats.add(new Link_Stat(clicks, l.getOriginalURL(), l.getGroupName(), id));
-            /*
-            //add group if group doesn't contain
-            if(containsGroup == false ){
-                Group gr = new Group();
-                gr.addLink(l);
-                gr.setGroupName(group_name);
-                groups.add(gr);
-            }
-            i++;
-            */
+        /*
+        //add group if group doesn't contain
+        if(containsGroup == false ){
+            Group gr = new Group();
+            gr.addLink(l);
+            gr.setGroupName(group_name);
+            groups.add(gr);
+        }
+        i++;
+        */
+
         }
         result.addObject("groups", groups.values());
 
@@ -160,46 +163,56 @@ public class BaseController {
 
         return BASE_API_URL + "?url=" + retailLink + "&publisherId=" + publisherID + "&apiKey=" + apiKey;
     }
+
+    @GetMapping("/batchForm")
+    public ModelAndView batchForm(@RequestParam(value = "name", defaultValue = "User") String value) {
+        ModelAndView result = new ModelAndView();
+        result.addObject("userName", value);
+        result.setViewName("batch");
+        return result;
+    }
+/*
     @GetMapping("/batchForm")
     public ModelAndView batchForm() {
         return new ModelAndView("batch", "example", new RetailLinkList());
     }
+    */
+    /*
+       @PostMapping("/batchPost")
+       public ModelAndView submitForm(@ModelAttribute RetailLinkList example) {
 
-    @PostMapping("/batchPost")
-    public ModelAndView submitForm(@ModelAttribute RetailLinkList example) {
-
-        String originalLinkList = example.getListOfLinks();
-        String convertedLinkList = "";
-        String removeCarriage = example.getListOfLinks();
-        removeCarriage = removeCarriage.replaceAll("\r\n", "\n");
-        String[] retailLinkArray = removeCarriage.split("\\n");
+           String originalLinkList = example.getListOfLinks();
+           String convertedLinkList = "";
+           String removeCarriage = example.getListOfLinks();
+           removeCarriage = removeCarriage.replaceAll("\r\n", "\n");
+           String[] retailLinkArray = removeCarriage.split("\\n");
 
 
-        for (int i = 0; i < retailLinkArray.length; i++){
-            String completeURL = convertToSylLink(retailLinkArray[i], PUBLISHER_ID, API_KEY) + "\n";
-            try {
-                URL sylURL = new URL(completeURL);
-                URLConnection sylConnection = sylURL.openConnection();
-                BufferedReader connectionBuff = new BufferedReader(new InputStreamReader(sylConnection.getInputStream()));
+           for (int i = 0; i < retailLinkArray.length; i++){
+               String completeURL = convertToSylLink(retailLinkArray[i], PUBLISHER_ID, API_KEY) + "\n";
+               try {
+                   URL sylURL = new URL(completeURL);
+                   URLConnection sylConnection = sylURL.openConnection();
+                   BufferedReader connectionBuff = new BufferedReader(new InputStreamReader(sylConnection.getInputStream()));
 
-                String inputLine;
-                StringBuffer jsonBuffer= new StringBuffer();
-                while ((inputLine = connectionBuff.readLine()) != null){
-                    jsonBuffer.append(inputLine);
-                }
-                connectionBuff.close();
-                JSONObject sylJsonResponse = new JSONObject(jsonBuffer.toString());
-                convertedLinkList = convertedLinkList.concat(sylJsonResponse.getString("link")).concat("\n");
-            }
-            catch (MalformedURLException e) {}
-            catch (IOException e){}
-        }
-        example.setListOfLinks(convertedLinkList);
-        ModelAndView result = new ModelAndView("outputBatch","exampleOut", example);
-        result.addObject("originalRetailList", originalLinkList);
-        return result;
-    }
-
+                   String inputLine;
+                   StringBuffer jsonBuffer= new StringBuffer();
+                   while ((inputLine = connectionBuff.readLine()) != null){
+                       jsonBuffer.append(inputLine);
+                   }
+                   connectionBuff.close();
+                   JSONObject sylJsonResponse = new JSONObject(jsonBuffer.toString());
+                   convertedLinkList = convertedLinkList.concat(sylJsonResponse.getString("link")).concat("\n");
+               }
+               catch (MalformedURLException e) {}
+               catch (IOException e){}
+           }
+           example.setListOfLinks(convertedLinkList);
+           ModelAndView result = new ModelAndView("outputBatch","exampleOut", example);
+           result.addObject("originalRetailList", originalLinkList);
+           return result;
+       }
+       */
     public class Link_Stat {
         private Long TotalUnitsOrdered;
         private int TotalConvertedToSale;
